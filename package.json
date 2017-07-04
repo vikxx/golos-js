@@ -1,7 +1,7 @@
 {
-  "name": "golos",
+  "name": "@goloschain/golos-js",
   "version": "0.5.20",
-  "description": "Golos.js the JavaScript API for Steem blockchain",
+  "description": "Golos.js the JavaScript API for Golos blockchain",
   "main": "lib/index.js",
   "scripts": {
     "test": "eslint --quiet src test; mocha -t 20000 --require babel-polyfill --require babel-register",

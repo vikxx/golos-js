@@ -26,63 +26,51 @@ Golos.js the JavaScript API for Golos blockchain
 
 
 Here is full documentation:
-https://github.com/steemit/steem-js/tree/master/doc
+https://github.com/GolosChain/golos-js/tree/master/doc
 
 ## Browser 
 ```html 
-<script src="./steem.min.js"></script>
+<script src="./golos.min.js"></script>
 <script>
-steem.api.getAccounts(['ned', 'dan'], function(err, response){
+golos.api.getAccounts(['ned', 'dan'], function(err, response){
     console.log(err, response);
 });
 </script>
 ```
 
-## CDN 
-https://cdn.steemjs.com/lib/latest/steem.min.js<br/>
-```html 
-<script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
-```
-
 ## Server
-## Install
-```
-$ npm install steem --save
-```
 
 ## WebSockets
-wss://steemd.steemit.com By Default<br/>
-wss://node.steem.ws<br/>
-wss://this.piston.rocks<br/>
+wss://ws.golos.io By Default<br/>
 
 ## Examples
 ### Broadcast Vote
 ```js
-var steem = require('steem');
+var golos = require('golos');
 
-var wif = steem.auth.toWif(username, password, 'posting');
-steem.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
+var wif = golos.auth.toWif(username, password, 'posting');
+golos.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
 	console.log(err, result);
 });
 ```
 
 ### Get Accounts
 ```js
-steem.api.getAccounts(['ned', 'dan'], function(err, result) {
+golos.api.getAccounts(['ned', 'dan'], function(err, result) {
 	console.log(err, result);
 });
 ```
 
 ### Get State
 ```js 
-steem.api.getState('/trends/funny', function(err, result) {
+golos.api.getState('/trends/funny', function(err, result) {
 	console.log(err, result);
 });
 ```
 
 ### Reputation Formatter
 ```js 
-var reputation = steem.formatter.reputation(user.reputation);
+var reputation = golos.formatter.reputation(user.reputation);
 console.log(reputation);
 ```
 
