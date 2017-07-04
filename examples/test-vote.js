@@ -1,7 +1,7 @@
 const golos = require('../lib');
 
-const username = process.env.STEEM_USERNAME;
-const password = process.env.STEEM_PASSWORD;
+const username = process.env.GOLOS_USERNAME;
+const password = process.env.GOLOS_PASSWORD;
 const wif = golos.auth.toWif(username, password, 'posting');
 
 golos
@@ -9,8 +9,8 @@ golos
   .upvote(
     wif,
     username,
-    'yamadapc',
-    'test-post-bop-1-2-3-4-5-6',
+    'pav',
+    'test',
     null,
     function(err, result) {
       console.log(err, result);

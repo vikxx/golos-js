@@ -66,7 +66,7 @@ describe('golos.api:', function () {
   describe('getContent', () => {
     describe('getting a random post', () => {
       it('works', async () => {
-        const result = await golos.getContentAsync('yamadapc', 'test-1-2-3-4-5-6-7-9');
+        const result = await golos.getContentAsync('pav', '64yyya-test');
         result.should.have.properties(testPost);
       });
 

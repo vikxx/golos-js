@@ -3,8 +3,8 @@ import should from 'should';
 import golos from '../src';
 import pkg from '../package.json';
 
-const username = process.env.STEEM_USERNAME || 'guest123';
-const password = process.env.STEEM_PASSWORD;
+const username = process.env.GOLOS_USERNAME || 'guest123';
+const password = process.env.GOLOS_PASSWORD;
 const postingWif = password
   ? golos.auth.toWif(username, password, 'posting')
   : '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
@@ -26,7 +26,7 @@ describe('golos.broadcast:', () => {
             author: username,
             permlink,
             title: 'Test',
-            body: `This is a test using Steem.js v${pkg.version}.`,
+            body: `This is a test using Golos.js v${pkg.version}.`,
             json_metadata : JSON.stringify({
               tags: ['test'],
               app: `golosjs/${pkg.version}`
@@ -36,7 +36,7 @@ describe('golos.broadcast:', () => {
         ['comment_options', {
           author: username,
           permlink,
-          max_accepted_payout: '1000000.000 SBD',
+          max_accepted_payout: '1000000.000 GBG',
           percent_steem_dollars: 10000,
           allow_votes: true,
           allow_curation_rewards: true,

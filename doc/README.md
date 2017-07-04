@@ -916,7 +916,7 @@ console.log(reputation);
 // => 56
 ```
 
-### Vest To Steem
+### Vest To Golos
 ```
 var golosPower = golos.formatter.vestToSteem(vestingShares, totalVestingShares, totalVestingFundSteem);
 console.log(golosPower);

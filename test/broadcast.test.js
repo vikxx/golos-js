@@ -2,8 +2,8 @@ import Promise from 'bluebird';
 import should from 'should';
 import golos from '../src';
 
-const username = process.env.STEEM_USERNAME || 'guest123';
-const password = process.env.STEEM_PASSWORD;
+const username = process.env.GOLOS_USERNAME || 'guest123';
+const password = process.env.GOLOS_PASSWORD;
 const postingWif = password
   ? golos.auth.toWif(username, password, 'posting')
   : '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
@@ -35,9 +35,9 @@ describe('golos.broadcast:', () => {
       const tx = await golos.broadcast._prepareTransaction({
         extensions: [],
         operations: [['vote', {
-          voter: 'yamadapc',
-          author: 'yamadapc',
-          permlink: 'test-1-2-3-4-5-6-7-9',
+          voter: 'pav',
+          author: 'pav',
+          permlink: '64yyya-test',
         }]],
       });
 
@@ -56,8 +56,8 @@ describe('golos.broadcast:', () => {
       const tx = await golos.broadcast.voteAsync(
         postingWif,
         username,
-        'yamadapc',
-        'test-1-2-3-4-5-6-7-9',
+        'pav',
+        '64yyya-test',
         -1000
       );
 
@@ -81,8 +81,8 @@ describe('golos.broadcast:', () => {
       const tx = await golos.broadcast.voteAsync(
         postingWif,
         username,
-        'yamadapc',
-        'test-1-2-3-4-5-6-7-9',
+        'pav',
+        '64yyya-test',
         10000
       );
 
@@ -100,8 +100,8 @@ describe('golos.broadcast:', () => {
       golos.broadcast.vote(
         postingWif,
         username,
-        'yamadapc',
-        'test-1-2-3-4-5-6-7-9',
+        'pav',
+        '64yyya-test',
         5000,
         (err, tx) => {
           if (err) return done(err);

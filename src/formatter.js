@@ -20,7 +20,7 @@ module.exports = steemAPI => {
     const sbdOrders = !open_orders
       ? 0
       : open_orders.reduce((o, order) => {
-          if (order.sell_price.base.indexOf("SBD") !== -1) {
+          if (order.sell_price.base.indexOf("GBG") !== -1) {
             o += order.for_sale;
           }
           return o;
@@ -29,7 +29,7 @@ module.exports = steemAPI => {
     const steemOrders = !open_orders
       ? 0
       : open_orders.reduce((o, order) => {
-          if (order.sell_price.base.indexOf("STEEM") !== -1) {
+          if (order.sell_price.base.indexOf("GOLOS") !== -1) {
             o += order.for_sale;
           }
           return o;
@@ -43,9 +43,9 @@ module.exports = steemAPI => {
     let savings_sbd_pending = 0;
     savings_withdraws.forEach(withdraw => {
       const [amount, asset] = withdraw.amount.split(" ");
-      if (asset === "STEEM") savings_pending += parseFloat(amount);
+      if (asset === "GOLOS") savings_pending += parseFloat(amount);
       else {
-        if (asset === "SBD") savings_sbd_pending += parseFloat(amount);
+        if (asset === "GBG") savings_sbd_pending += parseFloat(amount);
       }
     });
     return { savings_pending, savings_sbd_pending };
@@ -99,7 +99,7 @@ module.exports = steemAPI => {
     return Promise.all(promises).then(() => {
       let price_per_steem = undefined;
       const { base, quote } = feed_price;
-      if (/ SBD$/.test(base) && / STEEM$/.test(quote))
+      if (/ GBG$/.test(base) && / GOLOS$/.test(quote))
         price_per_steem = parseFloat(base.split(" ")[0]);
       const savings_balance = account.savings_balance;
       const savings_sbd_balance = account.savings_sbd_balance;
@@ -118,7 +118,7 @@ module.exports = steemAPI => {
         if (finishTime < currentTime) return out;
 
         const amount = parseFloat(
-          get(item, [1, "op", 1, "amount"]).replace(" SBD", "")
+          get(item, [1, "op", 1, "amount"]).replace(" GBG", "")
         );
         conversionValue += amount;
       }, []);
