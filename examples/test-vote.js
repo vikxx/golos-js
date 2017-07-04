@@ -9,8 +9,8 @@ golos
   .upvote(
     wif,
     username,
-    'pav',
-    'test',
+    'pal',
+    '2scmtp-test',
     null,
     function(err, result) {
       console.log(err, result);

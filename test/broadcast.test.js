@@ -35,9 +35,9 @@ describe('golos.broadcast:', () => {
       const tx = await golos.broadcast._prepareTransaction({
         extensions: [],
         operations: [['vote', {
-          voter: 'pav',
-          author: 'pav',
-          permlink: '64yyya-test',
+          voter: 'pal',
+          author: 'pal',
+          permlink: '2scmtp-test',
         }]],
       });
 
@@ -56,8 +56,8 @@ describe('golos.broadcast:', () => {
       const tx = await golos.broadcast.voteAsync(
         postingWif,
         username,
-        'pav',
-        '64yyya-test',
+        'pal',
+        '2scmtp-test',
         -1000
       );
 
@@ -81,8 +81,8 @@ describe('golos.broadcast:', () => {
       const tx = await golos.broadcast.voteAsync(
         postingWif,
         username,
-        'pav',
-        '64yyya-test',
+        'pal',
+        '2scmtp-test',
         10000
       );
 
@@ -100,8 +100,8 @@ describe('golos.broadcast:', () => {
       golos.broadcast.vote(
         postingWif,
         username,
-        'pav',
-        '64yyya-test',
+        'pal',
+        '2scmtp-test',
         5000,
         (err, tx) => {
           if (err) return done(err);

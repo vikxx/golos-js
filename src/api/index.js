@@ -35,7 +35,7 @@ const DEFAULTS = {
 
 const expectedResponseMs = process.env.EXPECTED_RESPONSE_MS || 2000;
 
-class Steem extends EventEmitter {
+class Golos extends EventEmitter {
   constructor(options = {}) {
     super(options);
     defaults(options, DEFAULTS);
@@ -96,7 +96,7 @@ class Steem extends EventEmitter {
         const id = data.id;
         const request = this.requests[id];
         if (!request) {
-          debugWs('Steem.onMessage error: unknown request ', id);
+          debugWs('Golos.onMessage error: unknown request ', id);
           return;
         }
         delete this.requests[id];
@@ -139,7 +139,7 @@ class Steem extends EventEmitter {
   }
 
   /**
-   * Refreshes API IDs, populating the `Steem::apiIdsP` map.
+   * Refreshes API IDs, populating the `Golos::apiIdsP` map.
    *
    * @param {String} [requestName] If provided, only this API will be refreshed
    * @param {Boolean} [force] If true the API will be forced to refresh, ignoring existing results
@@ -174,7 +174,7 @@ class Steem extends EventEmitter {
 
   onMessage(message, request) {
     const {api, data, resolve, reject, start_time} = request;
-    debugWs('-- Steem.onMessage -->', message.id);
+    debugWs('-- Golos.onMessage -->', message.id);
     const errorCause = message.error;
     if (errorCause) {
       const err = new Error(
@@ -202,7 +202,7 @@ class Steem extends EventEmitter {
   }
 
   send(api, data, callback) {
-    debugSetup('Steem::send', api, data);
+    debugSetup('Golos::send', api, data);
     const id = data.id || this.id++;
     const startP = this.start();
 
@@ -374,8 +374,8 @@ methods.forEach((method) => {
   const methodName = method.method_name || camelCase(method.method);
   const methodParams = method.params || [];
 
-  Steem.prototype[`${methodName}With`] =
-    function Steem$$specializedSendWith(options, callback) {
+  Golos.prototype[`${methodName}With`] =
+    function Golos$$specializedSendWith(options, callback) {
       const params = methodParams.map((param) => options[param]);
       return this.send(method.api, {
         method: method.method,
@@ -383,8 +383,8 @@ methods.forEach((method) => {
       }, callback);
     };
 
-  Steem.prototype[methodName] =
-    function Steem$specializedSend(...args) {
+  Golos.prototype[methodName] =
+    function Golos$specializedSend(...args) {
       const options = methodParams.reduce((memo, param, i) => {
         memo[param] = args[i]; // eslint-disable-line no-param-reassign
         return memo;
@@ -395,10 +395,10 @@ methods.forEach((method) => {
     };
 });
 
-Promise.promisifyAll(Steem.prototype);
+Promise.promisifyAll(Golos.prototype);
 
 // Export singleton instance
-const steem = new Steem();
-exports = module.exports = steem;
-exports.Steem = Steem;
-exports.Steem.DEFAULTS = DEFAULTS;
+const golos = new Golos();
+exports = module.exports = golos;
+exports.Golos = Golos;
+exports.Golos.DEFAULTS = DEFAULTS;

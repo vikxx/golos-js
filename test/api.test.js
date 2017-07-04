@@ -4,22 +4,22 @@ import assert from 'assert';
 import makeStub from 'mocha-make-stub'
 import should from 'should';
 
-import golos, { Steem } from '../src/api/index';
+import golos, { Golos } from '../src/api/index';
 import config from '../src/config';
 import testPost from './test-post.json';
 
 describe('golos.api:', function () {
   this.timeout(30 * 1000);
 
-  describe('new Steem', () => {
+  describe('new Golos', () => {
     it('doesn\'t open a connection until required', () => {
       assert(!golos.ws, 'There was a connection on the singleton?');
-      assert(!new Steem().ws, 'There was a connection on a new instance?');
+      assert(!new Golos().ws, 'There was a connection on a new instance?');
     });
 
     it('opens a connection on demand', (done) => {
-      const s = new Steem();
-      assert(!new Steem().ws, 'There was a connection on a new instance?');
+      const s = new Golos();
+      assert(!new Golos().ws, 'There was a connection on a new instance?');
       s.start();
       process.nextTick(() => {
         assert(s.ws, 'There was no connection?');
@@ -41,19 +41,21 @@ describe('golos.api:', function () {
   });
 
   describe('getFollowers', () => {
-    describe('getting ned\'s followers', () => {
+    describe('getting cyberfounder\'s followers', () => {
       it('works', async () => {
-        const result = await golos.getFollowersAsync('ned', 0, 'blog', 5);
+        const followersCount = 1;
+        const result = await golos.getFollowersAsync('cyberfounder', 0, 'blog', followersCount);
         assert(result, 'getFollowersAsync resoved to null?');
-        result.should.have.lengthOf(5);
+        result.should.have.lengthOf(followersCount);
       });
 
       it('the startFollower parameter has an impact on the result', async () => {
-        // Get the first 5
-        const result1 = await golos.getFollowersAsync('ned', 0, 'blog', 5)
-        result1.should.have.lengthOf(5);
-        const result2 = await golos.getFollowersAsync('ned', result1[result1.length - 1].follower, 'blog', 5)
-        result2.should.have.lengthOf(5);
+        const followersCount = 1;
+        // Get the first followersCount
+        const result1 = await golos.getFollowersAsync('cyberfounder', 0, 'blog', followersCount)
+        result1.should.have.lengthOf(followersCount);
+        const result2 = await golos.getFollowersAsync('cyberfounder', result1[result1.length - 1].follower, 'blog', followersCount)
+        result2.should.have.lengthOf(followersCount);
         result1.should.not.be.eql(result2);
       });
 
@@ -66,7 +68,7 @@ describe('golos.api:', function () {
   describe('getContent', () => {
     describe('getting a random post', () => {
       it('works', async () => {
-        const result = await golos.getContentAsync('pav', '64yyya-test');
+        const result = await golos.getContentAsync('pal', '2scmtp-test');
         result.should.have.properties(testPost);
       });
 
@@ -165,33 +167,34 @@ describe('golos.api:', function () {
   });
 
   describe('when there are network failures (the ws closes)', () => {
-    const originalStart = Steem.prototype.start;
-    makeStub(Steem.prototype, 'start', function () {
+    const originalStart = Golos.prototype.start;
+    makeStub(Golos.prototype, 'start', function () {
       return originalStart.apply(this, arguments);
     });
 
-    const originalStop = Steem.prototype.stop;
-    makeStub(Steem.prototype, 'stop', function () {
+    const originalStop = Golos.prototype.stop;
+    makeStub(Golos.prototype, 'stop', function () {
       return originalStop.apply(this, arguments);
     });
 
     it('tries to reconnect automatically', async () => {
-      const golos = new Steem();
+      const golos = new Golos();
       // console.log('RECONNECT TEST start');
       assert(!golos.ws, 'There was a websocket connection before a call?');
       // console.log('RECONNECT TEST make followers call');
-      await golos.getFollowersAsync('ned', 0, 'blog', 5);
+      const followersCount = 1;
+      await golos.getFollowersAsync('cyberfounder', 0, 'blog', followersCount);
       assert(golos.ws, 'There was no websocket connection after a call?');
       // console.log('RECONNECT TEST wait 1s');
       await Promise.delay(1000);
       // console.log('RECONNECT TEST simulate close event');
-      assert(!golos.stop.calledOnce, 'Steem::stop was already called before disconnect?');
+      assert(!golos.stop.calledOnce, 'Golos::stop was already called before disconnect?');
       golos.ws.emit('close');
       assert(!golos.ws);
       assert(!golos.startP);
-      assert(golos.stop.calledOnce, 'Steem::stop wasn\'t called when the connection closed?');
+      assert(golos.stop.calledOnce, 'Golos::stop wasn\'t called when the connection closed?');
       // console.log('RECONNECT TEST make followers call');
-      await golos.getFollowersAsync('ned', 0, 'blog', 5);
+      await golos.getFollowersAsync('cyberfounder', 0, 'blog', followersCount);
       assert(golos.ws, 'There was no websocket connection after a call?');
       assert(golos.isOpen, 'There was no websocket connection after a call?');
     });

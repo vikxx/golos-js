@@ -17,12 +17,12 @@ describe('golos.broadcast:', () => {
     });
 
     it('works', async () => {
-      const permlink = golos.formatter.commentPermlink('siol', 'test');
+      const permlink = golos.formatter.commentPermlink('pal', '2scmtp-test');
       const operations = [
         ['comment',
           {
-            parent_author: 'siol',
-            parent_permlink: 'test',
+            parent_author: 'pal',
+            parent_permlink: '2scmtp-test',
             author: username,
             permlink,
             title: 'Test',
@@ -43,7 +43,7 @@ describe('golos.broadcast:', () => {
           extensions: [
             [0, {
               beneficiaries: [
-                { account: 'good-karma', weight: 2000 },
+                { account: 'pal', weight: 2000 },
                 { account: 'null', weight: 5000 }
               ]
             }]

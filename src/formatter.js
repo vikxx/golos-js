@@ -6,7 +6,7 @@ module.exports = steemAPI => {
     return x.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  function vestingSteem(account, gprops) {
+  function vestingGolos(account, gprops) {
     const vests = parseFloat(account.vesting_shares.split(" ")[0]);
     const total_vests = parseFloat(gprops.total_vesting_shares.split(" ")[0]);
     const total_vest_steem = parseFloat(
@@ -66,11 +66,11 @@ module.exports = steemAPI => {
           steemAPI.getStateAsync(`/@{username}`).then(data => {
             gprops = data.props;
             feed_price = data.feed_price;
-            vesting_steem = vestingSteem(account, gprops);
+            vesting_steem = vestingGolos(account, gprops);
           })
         );
       } else {
-        vesting_steem = vestingSteem(account, gprops);
+        vesting_steem = vestingGolos(account, gprops);
       }
     }
 
@@ -167,13 +167,13 @@ module.exports = steemAPI => {
       return out;
     },
 
-    vestToSteem: function(
+    vestToGolos: function(
       vestingShares,
       totalVestingShares,
-      totalVestingFundSteem
+      totalVestingFundGolos
     ) {
       return (
-        parseFloat(totalVestingFundSteem) *
+        parseFloat(totalVestingFundGolos) *
         (parseFloat(vestingShares) / parseFloat(totalVestingShares))
       );
     },
@@ -191,7 +191,7 @@ module.exports = steemAPI => {
       return amount.toFixed(3) + " " + asset;
     },
     numberWithCommas,
-    vestingSteem,
+    vestingGolos,
     estimateAccountValue,
     createSuggestedPassword
   };

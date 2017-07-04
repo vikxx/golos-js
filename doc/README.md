@@ -599,7 +599,7 @@ golos.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, tit
 ```
 ### Comment Options
 ```
-golos.broadcast.commentOptions(wif, author, permlink, maxAcceptedPayout, percentSteemDollars, allowVotes, allowCurationRewards, extensions, function(err, result) {
+golos.broadcast.commentOptions(wif, author, permlink, maxAcceptedPayout, percentGolosDollars, allowVotes, allowCurationRewards, extensions, function(err, result) {
   console.log(err, result);
 });
 ```
@@ -918,7 +918,7 @@ console.log(reputation);
 
 ### Vest To Golos
 ```
-var golosPower = golos.formatter.vestToSteem(vestingShares, totalVestingShares, totalVestingFundSteem);
+var golosPower = golos.formatter.vestToGolos(vestingShares, totalVestingShares, totalVestingFundGolos);
 console.log(golosPower);
 ```
 
