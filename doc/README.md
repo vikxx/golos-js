@@ -47,7 +47,7 @@ golos.config.set('chain_id','782a3039b478c839e4cb0c941ff4eaeb7df40bdd68bd441afd4
 ```
 ### set
 ```
-golos.config.set('address_prefix','STM');
+golos.config.set('address_prefix','GLS');
 ```
 ### get
 ```
