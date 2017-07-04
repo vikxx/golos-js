@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<script src="../dist/steem.min.js"></script>
+<script src="../dist/golos.min.js"></script>
 <script>
-steem.api.streamOperations(function (err, operations) {
+golos.api.streamOperations(function (err, operations) {
   operations.forEach(function (operation) {
     console.log(operation);
   });

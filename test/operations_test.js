@@ -2,7 +2,7 @@ var assert = require('assert');
 var types = require('../src/auth/serializer/src/types');
 var ops = require('../src/auth/serializer/src/operations');
 
-describe("steem.auth: operation test", ()=> {
+describe("golos.auth: operation test", ()=> {
 
     it("templates", ()=> {
         for(let op in ops) {

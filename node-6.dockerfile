@@ -1,6 +1,6 @@
 FROM node:6
-ADD ./package.json /steemjs/package.json
-WORKDIR /steemjs
+ADD ./package.json /golosjs/package.json
+WORKDIR /golosjs
 RUN npm install
-ADD . /steemjs
+ADD . /golosjs
 RUN npm test

@@ -4,16 +4,16 @@ import assert from 'assert';
 import makeStub from 'mocha-make-stub'
 import should from 'should';
 
-import steem, { Steem } from '../src/api/index';
+import golos, { Steem } from '../src/api/index';
 import config from '../src/config';
 import testPost from './test-post.json';
 
-describe('steem.api:', function () {
+describe('golos.api:', function () {
   this.timeout(30 * 1000);
 
   describe('new Steem', () => {
     it('doesn\'t open a connection until required', () => {
-      assert(!steem.ws, 'There was a connection on the singleton?');
+      assert(!golos.ws, 'There was a connection on the singleton?');
       assert(!new Steem().ws, 'There was a connection on a new instance?');
     });
 
@@ -30,35 +30,35 @@ describe('steem.api:', function () {
 
   describe('setWebSocket', () => {
     it('works', () => {
-      steem.setWebSocket('ws://localhost');
+      golos.setWebSocket('ws://localhost');
       config.get('websocket').should.be.eql('ws://localhost');
-      config.set('websocket', 'wss://steemd.steemit.com')
+      config.set('websocket', 'wss://ws.golos.io')
     });
   });
 
   beforeEach(async () => {
-    await steem.apiIdsP;
+    await golos.apiIdsP;
   });
 
   describe('getFollowers', () => {
     describe('getting ned\'s followers', () => {
       it('works', async () => {
-        const result = await steem.getFollowersAsync('ned', 0, 'blog', 5);
+        const result = await golos.getFollowersAsync('ned', 0, 'blog', 5);
         assert(result, 'getFollowersAsync resoved to null?');
         result.should.have.lengthOf(5);
       });
 
       it('the startFollower parameter has an impact on the result', async () => {
         // Get the first 5
-        const result1 = await steem.getFollowersAsync('ned', 0, 'blog', 5)
+        const result1 = await golos.getFollowersAsync('ned', 0, 'blog', 5)
         result1.should.have.lengthOf(5);
-        const result2 = await steem.getFollowersAsync('ned', result1[result1.length - 1].follower, 'blog', 5)
+        const result2 = await golos.getFollowersAsync('ned', result1[result1.length - 1].follower, 'blog', 5)
         result2.should.have.lengthOf(5);
         result1.should.not.be.eql(result2);
       });
 
       it('clears listeners', async () => {
-        steem.listeners('message').should.have.lengthOf(0);
+        golos.listeners('message').should.have.lengthOf(0);
       });
     });
   });
@@ -66,20 +66,20 @@ describe('steem.api:', function () {
   describe('getContent', () => {
     describe('getting a random post', () => {
       it('works', async () => {
-        const result = await steem.getContentAsync('yamadapc', 'test-1-2-3-4-5-6-7-9');
+        const result = await golos.getContentAsync('yamadapc', 'test-1-2-3-4-5-6-7-9');
         result.should.have.properties(testPost);
       });
 
       it('clears listeners', async () => {
-        steem.listeners('message').should.have.lengthOf(0);
+        golos.listeners('message').should.have.lengthOf(0);
       });
     });
   });
 
   describe('streamBlockNumber', () => {
-    it('streams steem transactions', (done) => {
+    it('streams golos transactions', (done) => {
       let i = 0;
-      const release = steem.streamBlockNumber((err, block) => {
+      const release = golos.streamBlockNumber((err, block) => {
         should.exist(block);
         block.should.be.instanceOf(Number);
         i++;
@@ -92,9 +92,9 @@ describe('steem.api:', function () {
   });
 
   describe('streamBlock', () => {
-    it('streams steem blocks', (done) => {
+    it('streams golos blocks', (done) => {
       let i = 0;
-      const release = steem.streamBlock((err, block) => {
+      const release = golos.streamBlock((err, block) => {
         try {
           should.exist(block);
           block.should.have.properties([
@@ -118,9 +118,9 @@ describe('steem.api:', function () {
   });
 
   describe('streamTransactions', () => {
-    it('streams steem transactions', (done) => {
+    it('streams golos transactions', (done) => {
       let i = 0;
-      const release = steem.streamTransactions((err, transaction) => {
+      const release = golos.streamTransactions((err, transaction) => {
         try {
           should.exist(transaction);
           transaction.should.have.properties([
@@ -144,9 +144,9 @@ describe('steem.api:', function () {
   });
 
   describe('streamOperations', () => {
-    it('streams steem operations', (done) => {
+    it('streams golos operations', (done) => {
       let i = 0;
-      const release = steem.streamOperations((err, operation) => {
+      const release = golos.streamOperations((err, operation) => {
         try {
           should.exist(operation);
         } catch (err) {
@@ -176,24 +176,24 @@ describe('steem.api:', function () {
     });
 
     it('tries to reconnect automatically', async () => {
-      const steem = new Steem();
+      const golos = new Steem();
       // console.log('RECONNECT TEST start');
-      assert(!steem.ws, 'There was a websocket connection before a call?');
+      assert(!golos.ws, 'There was a websocket connection before a call?');
       // console.log('RECONNECT TEST make followers call');
-      await steem.getFollowersAsync('ned', 0, 'blog', 5);
-      assert(steem.ws, 'There was no websocket connection after a call?');
+      await golos.getFollowersAsync('ned', 0, 'blog', 5);
+      assert(golos.ws, 'There was no websocket connection after a call?');
       // console.log('RECONNECT TEST wait 1s');
       await Promise.delay(1000);
       // console.log('RECONNECT TEST simulate close event');
-      assert(!steem.stop.calledOnce, 'Steem::stop was already called before disconnect?');
-      steem.ws.emit('close');
-      assert(!steem.ws);
-      assert(!steem.startP);
-      assert(steem.stop.calledOnce, 'Steem::stop wasn\'t called when the connection closed?');
+      assert(!golos.stop.calledOnce, 'Steem::stop was already called before disconnect?');
+      golos.ws.emit('close');
+      assert(!golos.ws);
+      assert(!golos.startP);
+      assert(golos.stop.calledOnce, 'Steem::stop wasn\'t called when the connection closed?');
       // console.log('RECONNECT TEST make followers call');
-      await steem.getFollowersAsync('ned', 0, 'blog', 5);
-      assert(steem.ws, 'There was no websocket connection after a call?');
-      assert(steem.isOpen, 'There was no websocket connection after a call?');
+      await golos.getFollowersAsync('ned', 0, 'blog', 5);
+      assert(golos.ws, 'There was no websocket connection after a call?');
+      assert(golos.isOpen, 'There was no websocket connection after a call?');
     });
   });
 });

@@ -1,38 +1,38 @@
 import Promise from 'bluebird';
 import should from 'should';
-import steem from '../src';
+import golos from '../src';
 
 const username = process.env.STEEM_USERNAME || 'guest123';
 const password = process.env.STEEM_PASSWORD;
 const postingWif = password
-  ? steem.auth.toWif(username, password, 'posting')
+  ? golos.auth.toWif(username, password, 'posting')
   : '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
 
-describe('steem.broadcast:', () => {
+describe('golos.broadcast:', () => {
   it('exists', () => {
-    should.exist(steem.broadcast);
+    should.exist(golos.broadcast);
   });
 
   it('has generated methods', () => {
-    should.exist(steem.broadcast.vote);
-    should.exist(steem.broadcast.voteWith);
-    should.exist(steem.broadcast.comment);
-    should.exist(steem.broadcast.transfer);
+    should.exist(golos.broadcast.vote);
+    should.exist(golos.broadcast.voteWith);
+    should.exist(golos.broadcast.comment);
+    should.exist(golos.broadcast.transfer);
   });
 
   it('has backing methods', () => {
-    should.exist(steem.broadcast.send);
+    should.exist(golos.broadcast.send);
   });
 
   it('has promise methods', () => {
-    should.exist(steem.broadcast.sendAsync);
-    should.exist(steem.broadcast.voteAsync);
-    should.exist(steem.broadcast.transferAsync);
+    should.exist(golos.broadcast.sendAsync);
+    should.exist(golos.broadcast.voteAsync);
+    should.exist(golos.broadcast.transferAsync);
   });
 
   describe('patching transaction with default global properties', () => {
     it('works', async () => {
-      const tx = await steem.broadcast._prepareTransaction({
+      const tx = await golos.broadcast._prepareTransaction({
         extensions: [],
         operations: [['vote', {
           voter: 'yamadapc',
@@ -53,7 +53,7 @@ describe('steem.broadcast:', () => {
 
   describe('downvoting', () => {
     it('works', async () => {
-      const tx = await steem.broadcast.voteAsync(
+      const tx = await golos.broadcast.voteAsync(
         postingWif,
         username,
         'yamadapc',
@@ -78,7 +78,7 @@ describe('steem.broadcast:', () => {
     });
 
     it('works', async () => {
-      const tx = await steem.broadcast.voteAsync(
+      const tx = await golos.broadcast.voteAsync(
         postingWif,
         username,
         'yamadapc',
@@ -97,7 +97,7 @@ describe('steem.broadcast:', () => {
     });
 
     it('works with callbacks', (done) => {
-      steem.broadcast.vote(
+      golos.broadcast.vote(
         postingWif,
         username,
         'yamadapc',
@@ -125,7 +125,7 @@ describe('steem.broadcast:', () => {
     });
 
     it('works', async () => {
-      const tx = await steem.broadcast.customJsonAsync(
+      const tx = await golos.broadcast.customJsonAsync(
         postingWif,
         [],
         [username],

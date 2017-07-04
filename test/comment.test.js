@@ -1,15 +1,15 @@
 import Promise from 'bluebird';
 import should from 'should';
-import steem from '../src';
+import golos from '../src';
 import pkg from '../package.json';
 
 const username = process.env.STEEM_USERNAME || 'guest123';
 const password = process.env.STEEM_PASSWORD;
 const postingWif = password
-  ? steem.auth.toWif(username, password, 'posting')
+  ? golos.auth.toWif(username, password, 'posting')
   : '5JRaypasxMx1L97ZUX7YuC5Psb5EAbF821kkAGtBj7xCJFQcbLg';
 
-describe('steem.broadcast:', () => {
+describe('golos.broadcast:', () => {
 
   describe('comment with options', () => {
     before(() => {
@@ -17,7 +17,7 @@ describe('steem.broadcast:', () => {
     });
 
     it('works', async () => {
-      const permlink = steem.formatter.commentPermlink('siol', 'test');
+      const permlink = golos.formatter.commentPermlink('siol', 'test');
       const operations = [
         ['comment',
           {
@@ -29,7 +29,7 @@ describe('steem.broadcast:', () => {
             body: `This is a test using Steem.js v${pkg.version}.`,
             json_metadata : JSON.stringify({
               tags: ['test'],
-              app: `steemjs/${pkg.version}`
+              app: `golosjs/${pkg.version}`
             })
           }
         ],
@@ -51,7 +51,7 @@ describe('steem.broadcast:', () => {
         }]
       ];
 
-      const tx = await steem.broadcast.sendAsync(
+      const tx = await golos.broadcast.sendAsync(
         { operations, extensions: [] },
         { posting: postingWif }
       );

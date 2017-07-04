@@ -1,32 +1,32 @@
-var steem = require('../lib');
+var golos = require('../lib');
 
-steem.api.getAccountCount(function(err, result) {
+golos.api.getAccountCount(function(err, result) {
 	console.log(err, result);
 });
 
-steem.api.getAccounts(['dan'], function(err, result) {
+golos.api.getAccounts(['dan'], function(err, result) {
 	console.log(err, result);
-	var reputation = steem.formatter.reputation(result[0].reputation);
+	var reputation = golos.formatter.reputation(result[0].reputation);
 	console.log(reputation);
 });
 
-steem.api.getState('trending/steemit', function(err, result) {
+golos.api.getState('trending/golos', function(err, result) {
 	console.log(err, result);
 });
 
-steem.api.getFollowing('ned', 0, 'blog', 10, function(err, result) {
+golos.api.getFollowing('ned', 0, 'blog', 10, function(err, result) {
 	console.log(err, result);
 });
 
-steem.api.getFollowers('dan', 0, 'blog', 10, function(err, result) {
+golos.api.getFollowers('dan', 0, 'blog', 10, function(err, result) {
 	console.log(err, result);
 });
 
-steem.api.streamOperations(function(err, result) {
+golos.api.streamOperations(function(err, result) {
 	console.log(err, result);
 });
 
-steem.api.getDiscussionsByActive({
+golos.api.getDiscussionsByActive({
   limit: 10,
   start_author: 'thecastle',
   start_permlink: 'this-week-in-level-design-1-22-2017'
