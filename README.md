@@ -24,6 +24,10 @@ Golos.js the JavaScript API for Golos blockchain
 - [Broadcast](#broadcast)
 - [Auth](#auth)
 
+# Install
+```
+$ npm install git+https://github.com/GolosChain/golos-js --save
+```
 
 Here is full documentation:
 https://github.com/GolosChain/golos-js/tree/master/doc

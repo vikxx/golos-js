@@ -24,7 +24,7 @@
 
 # Install
 ```
-$ npm install https:// --save
+$ npm install git+https://github.com/GolosChain/golos-js --save
 ```
 
 # Browser 
