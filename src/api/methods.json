@@ -458,6 +458,36 @@
   },
   {
     "api": "market_history_api",
+    "method": "get_limit_orders",
+    "params": ["assetIdBeingSold", "assetIdBeingPurchased", "limit"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_call_orders",
+    "params": ["assetIdBeingCalled", "limit"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_settle_orders",
+    "params": ["assetIdBeingSettled", "limit"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_margin_positions",
+    "params": ["account"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "subscribe_to_market",
+    "params": ["cb", "firstAssetId", "secondAssetId"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "unsubscribe_from_market",
+    "params": ["firstAssetId", "secondAssetId"]
+  },
+  {
+    "api": "market_history_api",
     "method": "get_ticker",
     "params": []
   },
@@ -491,5 +521,20 @@
     "api": "market_history_api",
     "method": "get_market_history_buckets",
     "params": []
+  },
+  {
+    "api": "assets_api",
+    "method": "get_assets",
+    "params": ["assetIds"]
+  },
+  {
+    "api": "assets_api",
+    "method": "list_assets",
+    "params": ["lowerBoundSymbol", "limit"]
+  },
+  {
+    "api": "assets_api",
+    "method": "lookup_asset_symbols",
+    "params": ["symbolsOrIds", "limit"]
   }
 ]
