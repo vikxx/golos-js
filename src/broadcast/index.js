@@ -9,7 +9,7 @@ import steemApi from '../api';
 import steemAuth from '../auth';
 import { camelCase } from '../utils';
 
-const debug = newDebug('steem:broadcast');
+const debug = newDebug('golos:broadcast');
 const formatter = formatterFactory(steemApi);
 
 const steemBroadcast = {};

@@ -8,11 +8,11 @@ import config from '../config';
 import methods from './methods';
 import { camelCase } from '../utils';
 
-const debugEmitters = newDebug('steem:emitters');
-const debugProtocol = newDebug('steem:protocol');
-const debugSetup = newDebug('steem:setup');
-const debugApiIds = newDebug('steem:api_ids');
-const debugWs = newDebug('steem:ws');
+const debugEmitters = newDebug('golos:emitters');
+const debugProtocol = newDebug('golos:protocol');
+const debugSetup = newDebug('golos:setup');
+const debugApiIds = newDebug('golos:api_ids');
+const debugWs = newDebug('golos:ws');
 
 let WebSocket;
 if (isNode) {
@@ -54,7 +54,7 @@ class Golos extends EventEmitter {
   }
 
   setWebSocket(url) {
-    console.warn("steem.api.setWebSocket(url) is now deprecated instead use steem.config.set('websocket',url)");
+    console.warn("golos.api.setWebSocket(url) is now deprecated instead use golos.config.set('websocket',url)");
     debugSetup('Setting WS', url);
     config.set('websocket', url);
     this.stop();
