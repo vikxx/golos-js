@@ -1,5 +1,5 @@
 {
-  "name": "golos",
+  "name": "golos-js",
   "version": "0.5.20",
   "description": "Golos.js the JavaScript API for Golos blockchain",
   "main": "lib/index.js",
