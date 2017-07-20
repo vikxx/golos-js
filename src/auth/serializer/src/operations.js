@@ -592,6 +592,138 @@ let account_create_with_delegation = new Serializer(
 }
 );
 
+let asset_options = new Serializer(
+    "asset_options", {
+        max_supply: int64,
+        market_fee_percent: uint16,
+        max_market_fee: int64,
+        issuer_permissions: uint16,
+        flags: uint16,
+        core_exchange_rate: price,
+        whitelist_authorities: set(string),
+        blacklist_authorities: set(string),
+        whitelist_markets: set(string),
+        blacklist_markets: set(string),
+        description: string,
+        extensions: set(future_extensions)
+    }
+);
+
+let bitasset_options = new Serializer(
+    "bitasset_options", {
+        feed_lifetime_sec: uint32,
+        minimum_feeds: uint8,
+        force_settlement_delay_sec: uint32,
+        force_settlement_offset_percent: uint16,
+        maximum_force_settlement_volume: uint16,
+        short_backing_asset: string,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_create = new Serializer(
+    "asset_create", {
+        fee: asset,
+        issuer: string,
+        asset_name: string,
+        precision: uint8,
+        common_options: asset_options,
+        bitasset_opts: optional(bitasset_options),
+        is_prediction_market: bool,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_update = new Serializer(
+    "asset_update", {
+        fee: asset,
+        issuer: string,
+        asset_to_update: string,
+        new_issuer: optional(string),
+        new_options: asset_options,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_update_bitasset = new Serializer(
+    "asset_update_bitasset", {
+        fee: asset,
+        issuer: string,
+        asset_to_update: string,
+        new_options: bitasset_options,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_update_feed_producers = new Serializer(
+    "asset_update_feed_producers", {
+        fee: asset,
+        issuer: string,
+        asset_to_update: string,
+        new_feed_producers: set(string),
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_issue = new Serializer(
+    "asset_issue", {
+        fee: asset,
+        issuer: string,
+        asset_to_issue: asset,
+        issue_to_account: string,
+        memo: optional(string),
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_reserve = new Serializer(
+    "asset_reserve", {
+        fee: asset,
+        payer: string,
+        amount_to_reserve: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_fund_fee_pool = new Serializer(
+    "asset_fund_fee_pool", {
+        fee: asset,
+        from_account: string,
+        asset_name: string,
+        amount: int64,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_settle = new Serializer(
+    "asset_settle", {
+        fee: asset,
+        account: string,
+        amount: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_force_settle = new Serializer(
+    "asset_force_settle", {
+        fee: asset,
+        account: string,
+        amount: asset,
+        settlement_id: uint32,
+        extensions: set(future_extensions)
+    }
+);
+
+let asset_global_settle = new Serializer(
+    "asset_global_settle", {
+        fee: asset,
+        issuer: string,
+        asset_to_settle: string,
+        settle_price: price,
+        extensions: set(future_extensions)
+    }
+);
+
 let fill_convert_request = new Serializer( 
     "fill_convert_request", {
     owner: string,
@@ -705,63 +837,103 @@ let comment_benefactor_reward = new Serializer(
 }
 );
 
+let asset_settle_cancel = new Serializer(
+    "asset_settle_cancel", {
+        fee: asset,
+        settlement: uint32,
+        account: string,
+        amount: asset,
+        extensions: set(future_extensions)
+    }
+);
+
+let fill_asset_order = new Serializer(
+    "fill_asset_order", {
+        order_id: uint32,
+        owner: string,
+        pays: asset,
+        receives: asset,
+        fee: asset
+    }
+);
+
 operation.st_operations = [
-    vote,    
-    comment,    
-    transfer,    
-    transfer_to_vesting,    
-    withdraw_vesting,    
-    limit_order_create,    
-    limit_order_cancel,    
-    feed_publish,    
-    convert,    
-    account_create,    
-    account_update,    
-    witness_update,    
-    account_witness_vote,    
-    account_witness_proxy,    
-    pow,    
-    custom,    
-    report_over_production,    
-    delete_comment,    
-    custom_json,    
-    comment_options,    
-    set_withdraw_vesting_route,    
-    limit_order_create2,    
-    challenge_authority,    
-    prove_authority,    
-    request_account_recovery,    
-    recover_account,    
-    change_recovery_account,    
-    escrow_transfer,    
-    escrow_dispute,    
-    escrow_release,    
-    pow2,    
-    escrow_approve,    
-    transfer_to_savings,    
-    transfer_from_savings,    
-    cancel_transfer_from_savings,    
-    custom_binary,    
-    decline_voting_rights,    
-    reset_account,    
-    set_reset_account,    
-    claim_reward_balance,    
-    delegate_vesting_shares,    
-    account_create_with_delegation,    
-    fill_convert_request,    
-    author_reward,    
-    curation_reward,    
-    comment_reward,    
-    liquidity_reward,    
-    interest,    
-    fill_vesting_withdraw,    
-    fill_order,    
-    shutdown_witness,    
-    fill_transfer_from_savings,    
-    hardfork,    
-    comment_payout_update,    
-    return_vesting_delegation,    
-    comment_benefactor_reward
+    vote,
+    comment,
+    transfer,
+    transfer_to_vesting,
+    withdraw_vesting,
+    limit_order_create,
+    limit_order_cancel,
+    feed_publish,
+    convert,
+    account_create,
+    account_update,
+    witness_update,
+    account_witness_vote,
+    account_witness_proxy,
+    pow,
+    custom,
+    report_over_production,
+    delete_comment,
+    custom_json,
+    comment_options,
+    set_withdraw_vesting_route,
+    limit_order_create2,
+    challenge_authority,
+    prove_authority,
+    request_account_recovery,
+    recover_account,
+    change_recovery_account,
+    escrow_transfer,
+    escrow_dispute,
+    escrow_release,
+    pow2,
+    escrow_approve,
+    transfer_to_savings,
+    transfer_from_savings,
+    cancel_transfer_from_savings,
+    custom_binary,
+    decline_voting_rights,
+    reset_account,
+    set_reset_account,
+    comment_benefactor_reward,
+    delegate_vesting_shares,
+    account_create_with_delegation,
+    comment_payout_extension,
+    asset_create,
+    asset_update,
+    asset_update_bitasset,
+    asset_update_feed_producers,
+    asset_issue,
+    asset_reserve,
+    asset_fund_fee_pool,
+    asset_settle,
+    asset_force_settle,
+    asset_global_settle,
+    asset_publish_feed,
+    asset_claim_fees,
+    call_order_update,
+    account_whitelist,
+    override_transfer,
+    proposal_create,
+    proposal_update,
+    proposal_delete,
+    fill_convert_request,
+    author_reward,
+    curation_reward,
+    comment_reward,
+    liquidity_reward,
+    interest,
+    fill_vesting_withdraw,
+    fill_order,
+    shutdown_witness,
+    fill_transfer_from_savings,
+    hardfork,
+    comment_payout_update,
+    return_vesting_delegation,
+    asset_settle_cancel,
+    fill_asset_order
 ];
 
 let transaction = new Serializer( 

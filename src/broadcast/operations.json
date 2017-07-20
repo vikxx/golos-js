@@ -499,7 +499,7 @@
     "params": [
       "fee",
       "issuer",
-      "symbol_name",
+      "asset_name",
       "precision",
       "common_options",
       "bitasset_opts",
