@@ -394,7 +394,7 @@
   {
     "api": "database_api",
     "method": "lookup_asset_symbols",
-    "params": ["symbolsOrIds", "limit"]
+    "params": ["symbols"]
   },
   {
     "api": "login_api",
@@ -535,7 +535,7 @@
   {
     "api": "market_history_api",
     "method": "get_trade_history",
-    "params": ["start", "end", "limit"]
+    "params": ["base", "quote", "start", "end", "limit"]
   },
   {
     "api": "market_history_api",
