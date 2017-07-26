@@ -378,6 +378,11 @@
   },
   {
     "api": "database_api",
+    "method": "get_assets_by_issuer",
+    "params": ["issuer"]
+  },
+  {
+    "api": "database_api",
     "method": "get_assets_dynamic_data",
     "params": ["assetSymbols"]
   },
