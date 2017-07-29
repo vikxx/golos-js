@@ -266,11 +266,6 @@
   },
   {
     "api": "database_api",
-    "method": "get_liquidity_queue",
-    "params": ["startAccount", "limit"]
-  },
-  {
-    "api": "database_api",
     "method": "get_transaction_hex",
     "params": ["trx"]
   },
@@ -491,6 +486,8 @@
     "method": "set_max_block_age",
     "params": ["maxBlockAge"]
   },
+
+
   {
     "api": "market_history_api",
     "method": "get_limit_orders",
@@ -535,7 +532,7 @@
     "api": "market_history_api",
     "method": "get_order_book",
     "method_name": "getMarketOrderBook",
-    "params": ["limit"]
+    "params": ["base", "quote", "limit"]
   },
   {
     "api": "market_history_api",
@@ -556,5 +553,10 @@
     "api": "market_history_api",
     "method": "get_market_history_buckets",
     "params": []
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_liquidity_queue",
+    "params": ["startAccount", "limit"]
   }
 ]
