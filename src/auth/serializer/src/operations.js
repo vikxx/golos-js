@@ -207,7 +207,6 @@ let withdraw_vesting = new Serializer(
 
 let limit_order_create = new Serializer(
     "limit_order_create", {
-        fee: optional(asset),
         owner: string,
         order_id: uint32,
         amount_to_sell: asset,
@@ -220,7 +219,6 @@ let limit_order_create = new Serializer(
 
 let limit_order_cancel = new Serializer(
     "limit_order_cancel", {
-        fee: optional(asset),
         owner: string,
         order_id: uint32,
         extensions: set(future_extensions)
@@ -380,7 +378,6 @@ let set_withdraw_vesting_route = new Serializer(
 
 let limit_order_create2 = new Serializer(
     "limit_order_create2", {
-        fee: optional(asset),
         owner: string,
         order_id: uint32,
         amount_to_sell: asset,
@@ -647,7 +644,6 @@ let bitasset_options = new Serializer(
 
 let asset_create = new Serializer(
     "asset_create", {
-        fee: asset,
         issuer: string,
         asset_name: string,
         precision: uint8,
@@ -660,7 +656,6 @@ let asset_create = new Serializer(
 
 let asset_update = new Serializer(
     "asset_update", {
-        fee: asset,
         issuer: string,
         asset_to_update: string,
         new_issuer: optional(string),
@@ -671,7 +666,6 @@ let asset_update = new Serializer(
 
 let asset_update_bitasset = new Serializer(
     "asset_update_bitasset", {
-        fee: asset,
         issuer: string,
         asset_to_update: string,
         new_options: bitasset_options,
@@ -681,7 +675,6 @@ let asset_update_bitasset = new Serializer(
 
 let asset_update_feed_producers = new Serializer(
     "asset_update_feed_producers", {
-        fee: asset,
         issuer: string,
         asset_to_update: string,
         new_feed_producers: set(string),
@@ -691,7 +684,6 @@ let asset_update_feed_producers = new Serializer(
 
 let asset_issue = new Serializer(
     "asset_issue", {
-        fee: asset,
         issuer: string,
         asset_to_issue: asset,
         issue_to_account: string,
@@ -702,7 +694,6 @@ let asset_issue = new Serializer(
 
 let asset_reserve = new Serializer(
     "asset_reserve", {
-        fee: asset,
         payer: string,
         amount_to_reserve: asset,
         extensions: set(future_extensions)
@@ -711,7 +702,6 @@ let asset_reserve = new Serializer(
 
 let asset_fund_fee_pool = new Serializer(
     "asset_fund_fee_pool", {
-        fee: asset,
         from_account: string,
         asset_name: string,
         amount: uint64,
@@ -721,7 +711,6 @@ let asset_fund_fee_pool = new Serializer(
 
 let asset_settle = new Serializer(
     "asset_settle", {
-        fee: asset,
         account: string,
         amount: asset,
         extensions: set(future_extensions)
@@ -730,7 +719,6 @@ let asset_settle = new Serializer(
 
 let asset_force_settle = new Serializer(
     "asset_force_settle", {
-        fee: asset,
         account: string,
         amount: asset,
         settlement_id: uint32,
@@ -740,7 +728,6 @@ let asset_force_settle = new Serializer(
 
 let asset_global_settle = new Serializer(
     "asset_global_settle", {
-        fee: asset,
         issuer: string,
         asset_to_settle: string,
         settle_price: price,
@@ -759,7 +746,6 @@ let price_feed = new Serializer(
 
 let asset_publish_feed = new Serializer(
     "asset_publish_feed", {
-        fee: asset,
         publisher: string,
         asset_name: string,
         feed: price_feed,
@@ -769,7 +755,6 @@ let asset_publish_feed = new Serializer(
 
 let asset_claim_fees = new Serializer(
     "asset_claim_fees", {
-        fee: asset,
         issuer: string,
         amount_to_claim: asset,
         extensions: set(future_extensions)
@@ -778,7 +763,6 @@ let asset_claim_fees = new Serializer(
 
 let call_order_update = new Serializer(
     "call_order_update", {
-        fee: optional(asset),
         funding_account: string,
         delta_collateral: asset,
         delta_debt: asset,
@@ -816,7 +800,6 @@ let operation_wrapper = new Serializer(
 let proposal_create = new Serializer(
     "proposal_create", {
         owner: string,
-        fee: asset,
         proposal_id: uint32,
         expiration_time: time_point_sec,
         proposed_operations: array(operation_wrapper),
@@ -828,7 +811,6 @@ let proposal_create = new Serializer(
 let proposal_update = new Serializer(
     "proposal_update", {
         owner: string,
-        fee: asset,
         proposal_id: uint32,
         active_approvals_to_add: set(string),
         active_approvals_to_remove: set(string),
@@ -845,7 +827,6 @@ let proposal_update = new Serializer(
 let proposal_delete = new Serializer(
     "proposal_delete", {
         owner: string,
-        fee: asset,
         using_owner_authority: bool,
         proposal_id: uint32,
         extensions: set(future_extensions)
