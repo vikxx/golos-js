@@ -1,6 +1,8 @@
 # Golos.js
 Golos.js the JavaScript API for Golos blockchain
 
+[![npm version](https://badge.fury.io/js/golos-js.svg)](https://badge.fury.io/js/golos-js)
+
 # Documentation
 
 - [Install](#install)
