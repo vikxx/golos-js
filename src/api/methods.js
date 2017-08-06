@@ -1,4 +1,4 @@
-[
+module.exports = [
   {
     "api": "database_api",
     "method": "set_subscribe_callback",
