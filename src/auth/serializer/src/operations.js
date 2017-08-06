@@ -211,17 +211,15 @@ let limit_order_create = new Serializer(
         order_id: uint32,
         amount_to_sell: asset,
         min_to_receive: asset,
-        expiration: time_point_sec,
         fill_or_kill: bool,
-        extensions: set(future_extensions)
+        expiration: time_point_sec
     }
 );
 
 let limit_order_cancel = new Serializer(
     "limit_order_cancel", {
         owner: string,
-        order_id: uint32,
-        extensions: set(future_extensions)
+        order_id: uint32
     }
 );
 
@@ -382,9 +380,8 @@ let limit_order_create2 = new Serializer(
         order_id: uint32,
         amount_to_sell: asset,
         expiration: time_point_sec,
-        fill_or_kill: bool,
         exchange_rate: price,
-        extensions: set(future_extensions)
+        fill_or_kill: bool
     }
 );
 
@@ -765,8 +762,7 @@ let call_order_update = new Serializer(
     "call_order_update", {
         funding_account: string,
         delta_collateral: asset,
-        delta_debt: asset,
-        extensions: set(future_extensions)
+        delta_debt: asset
     }
 );
 
@@ -782,7 +778,6 @@ let account_whitelist = new Serializer(
 
 let override_transfer = new Serializer(
     "override_transfer", {
-        fee: asset,
         issuer: string,
         from: string,
         to: string,
@@ -939,7 +934,6 @@ let return_vesting_delegation = new Serializer(
 
 let asset_settle_cancel = new Serializer(
     "asset_settle_cancel", {
-        fee: asset,
         settlement: uint32,
         account: string,
         amount: asset,
@@ -947,8 +941,18 @@ let asset_settle_cancel = new Serializer(
     }
 );
 
-let fill_asset_order = new Serializer(
-    "fill_asset_order", {
+let fill_call_order = new Serializer(
+    "fill_call_order", {
+        order_id: uint32,
+        owner: string,
+        pays: asset,
+        receives: asset,
+        fee: asset
+    }
+);
+
+let fill_settlement_order = new Serializer(
+    "fill_settlement_order", {
         order_id: uint32,
         owner: string,
         pays: asset,
@@ -1033,7 +1037,8 @@ operation.st_operations = [
     comment_payout_update,
     return_vesting_delegation,
     asset_settle_cancel,
-    fill_asset_order
+    fill_call_order,
+    fill_settlement_order
 ];
 
 let transaction = new Serializer( 

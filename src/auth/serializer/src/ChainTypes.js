@@ -84,7 +84,8 @@ ChainTypes.operations= {
     comment_payout_update: 72,
     return_vesting_delegation: 73,
     asset_settle_cancel: 74,
-    fill_asset_order: 75
+    fill_call_order: 75,
+    fill_settlement_order: 76
 };
 
 //types.hpp
