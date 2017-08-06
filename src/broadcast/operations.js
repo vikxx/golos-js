@@ -1,4 +1,4 @@
-[
+module.exports =[
   {
     "roles": ["posting"],
     "operation": "vote",

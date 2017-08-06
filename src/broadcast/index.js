@@ -4,7 +4,7 @@ import noop from 'lodash/noop';
 
 import broadcastHelpers from './helpers';
 import formatterFactory from '../formatter';
-import operations from './operations.json';
+import operations from './operations';
 import steemApi from '../api';
 import steemAuth from '../auth';
 import { camelCase } from '../utils';
