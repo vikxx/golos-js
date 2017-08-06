@@ -1,4 +1,4 @@
-module.exports =[
+module.exports = [
   {
     "roles": ["posting"],
     "operation": "vote",
@@ -54,7 +54,7 @@ module.exports =[
     "operation": "limit_order_create",
     "params": [
       "owner",
-      "orderid",
+      "order_id",
       "amount_to_sell",
       "min_to_receive",
       "fill_or_kill",
@@ -213,10 +213,10 @@ module.exports =[
     "operation": "limit_order_create2",
     "params": [
       "owner",
-      "orderid",
+      "order_id",
       "amount_to_sell",
-      "exchange_rate",
       "fill_or_kill",
+      "exchange_rate",
       "expiration"
     ]
   },
@@ -497,7 +497,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_create",
     "params": [
-      "fee",
       "issuer",
       "asset_name",
       "precision",
@@ -511,7 +510,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_global_settle",
     "params": [
-      "fee",
       "issuer",
       "asset_to_settle",
       "settle_price",
@@ -522,7 +520,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_settle",
     "params": [
-      "fee",
       "account",
       "amount",
       "extensions"
@@ -532,7 +529,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_force_settle",
     "params": [
-      "fee",
       "account",
       "amount",
       "settlement_id",
@@ -543,7 +539,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_fund_fee_pool",
     "params": [
-      "fee",
       "from_account",
       "symbol",
       "amount",
@@ -554,7 +549,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_update",
     "params": [
-      "fee",
       "issuer",
       "asset_to_update",
       "new_issuer",
@@ -566,7 +560,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_update_bitasset",
     "params": [
-      "fee",
       "issuer",
       "asset_to_update",
       "new_options",
@@ -577,7 +570,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_update_feed_producers",
     "params": [
-      "fee",
       "issuer",
       "asset_to_update",
       "new_feed_producers",
@@ -586,11 +578,10 @@ module.exports =[
   },
   {
     "roles": ["active"],
-    "operation": "asset_update_feed_producers",
+    "operation": "asset_publish_feed",
     "params": [
-      "fee",
       "publisher",
-      "asset_id",
+      "asset_name",
       "feed",
       "extensions"
     ]
@@ -599,7 +590,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_issue",
     "params": [
-      "fee",
       "issuer",
       "asset_to_issue",
       "issue_to_account",
@@ -611,7 +601,6 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_reserve",
     "params": [
-      "fee",
       "payer",
       "amount_to_reserve",
       "extensions"
@@ -621,10 +610,9 @@ module.exports =[
     "roles": ["active"],
     "operation": "asset_claim_fees",
     "params": [
-      "fee",
       "issuer",
       "amount_to_claim",
       "extensions"
     ]
   }
-]
+];
