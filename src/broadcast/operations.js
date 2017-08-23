@@ -66,7 +66,7 @@ module.exports = [
     "operation": "limit_order_cancel",
     "params": [
       "owner",
-      "orderid"
+      "order_id"
     ]
   },
   {
@@ -540,7 +540,7 @@ module.exports = [
     "operation": "asset_fund_fee_pool",
     "params": [
       "from_account",
-      "symbol",
+      "asset_name",
       "amount",
       "extensions"
     ]
@@ -613,6 +613,15 @@ module.exports = [
       "issuer",
       "amount_to_claim",
       "extensions"
+    ]
+  },
+  {
+    "roles": ["active"],
+    "operation": "call_order_update",
+    "params": [
+      "funding_account",
+      "delta_collateral",
+      "delta_debt"
     ]
   }
 ];
