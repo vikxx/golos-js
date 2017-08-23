@@ -478,6 +478,10 @@ module.exports = [
   },
   {
     "api": "market_history_api",
+    "method": "cancel_all_subscriptions"
+  },
+  {
+    "api": "market_history_api",
     "method": "subscribe_to_market",
     "params": ["cb", "firstAssetName", "secondAssetName"]
   },
@@ -488,7 +492,17 @@ module.exports = [
   },
   {
     "api": "market_history_api",
-    "method": "get_open_orders",
+    "method": "get_limit_orders_by_owner",
+    "params": ["owner"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_call_orders_by_owner",
+    "params": ["owner"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_settle_orders_by_owner",
     "params": ["owner"]
   },
   {
