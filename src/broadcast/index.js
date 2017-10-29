@@ -73,7 +73,7 @@ steemBroadcast._prepareTransaction = function steemBroadcast$_prepareTransaction
 
 // Generated wrapper ----------------------------------------------------------
 
-// Generate operations from operations.json
+// Generate operations from operations.js
 operations.forEach((operation) => {
   const operationName = camelCase(operation.operation);
   const operationParams = operation.params || [];

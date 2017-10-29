@@ -369,7 +369,7 @@ class Golos extends EventEmitter {
   }
 }
 
-// Generate Methods from methods.json
+// Generate Methods from methods.js
 methods.forEach((method) => {
   const methodName = method.method_name || camelCase(method.method);
   const methodParams = method.params || [];
