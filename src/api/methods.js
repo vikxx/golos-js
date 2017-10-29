@@ -353,6 +353,11 @@ module.exports = [
   },
   {
     "api": "database_api",
+    "method": "get_name_cost",
+    "params": ["name"]
+  },
+  {
+    "api": "database_api",
     "method": "get_vesting_delegations",
     "params": ["account", "from", "limit"]
   },
