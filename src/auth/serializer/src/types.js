@@ -15,18 +15,42 @@ module.exports = Types
 
 const HEX_DUMP = process.env.npm_config__graphene_serializer_hex_dump
 
-/**
-* Asset symbols contain the following information
-*
-*  4 bit PRECISION
-*  4 bit RESERVED
-*  CHAR[6] up to 6 upper case alpha numeric ascii characters,
-*  char = \0  null terminated
-*
-*  It is treated as a uint64_t for all internal operations, but
-*  is easily converted to something that can be displayed.
-*/
 Types.asset = {
+    fromByteBuffer(b){
+        let amount = b.readInt64()
+        let symbol = b.readVString()
+        let precision = b.readUint8()
+
+        // "1.000 GOLOS" always written with full precision
+        let amount_string = fromImpliedDecimal(amount, precision)
+        return amount_string + " " + symbol
+    },
+    appendByteBuffer(b, object){
+        object = object.trim()
+        if( ! /^[0-9]+\.?[0-9]* [A-Za-z0-9]+$/.test(object))
+            throw new Error("Expecting amount like '99.000 SYMBOL', instead got '" + object + "'")
+
+        let [ amount, symbol ] = object.split(" ")
+        // if(symbol.length > 16)
+        //     throw new Error("Symbols are not longer than 16 characters " + symbol + "-"+ symbol.length)
+
+        b.writeInt64(v.to_long(amount.replace(".", "")))
+        let dot = amount.indexOf(".") // 0.000
+        let precision = dot === -1 ? 0 : amount.length - dot - 1
+        b.writeVString(symbol.toUpperCase())
+        b.writeUint8(precision)
+        return
+    },
+    fromObject(object){
+        return object
+    },
+    toObject(object, debug = {}){
+        if (debug.use_default && object === undefined) { return "0.000 GOLOS"; }
+        return object
+    }
+}
+
+Types.asset_16 = {
     fromByteBuffer(b){
         let amount = b.readInt64()
         let precision = b.readUint8()

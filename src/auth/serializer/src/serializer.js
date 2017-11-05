@@ -57,6 +57,14 @@ class Serializer {
     }
     
     appendByteBuffer(b, object) {
+        // FIXME
+        // if (object.hasOwnProperty('operations')) {
+        //     let op = object.operations[0][0];
+        //     if (op.indexOf('_16') !== -1) {
+        //         object.operations[0][0] = op.substr(0, op.length - 3);
+        //     }
+        // }
+        
         var field = null;
         try {
             var iterable = this.keys;

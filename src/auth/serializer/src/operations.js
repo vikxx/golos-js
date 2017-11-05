@@ -53,6 +53,7 @@ const {
     time_point_sec,
     optional,
     asset,
+    asset_16
 } = types
 
 const future_extensions = types.void
@@ -828,6 +829,15 @@ let proposal_delete = new Serializer(
     }
 );
 
+let bid_collateral = new Serializer(
+    "bid_collateral", {
+        bidder: string,
+        additional_collateral: asset,
+        debt_covered: asset,
+        extensions: set(future_extensions)
+  }
+);
+
 let fill_convert_request = new Serializer(
     "fill_convert_request", {
         owner: string,
@@ -961,7 +971,514 @@ let fill_settlement_order = new Serializer(
     }
 );
 
+let execute_bid = new Serializer(
+    "execute_bid", {
+        bidder: string,
+        debt: asset,
+        collateral: asset
+  }
+);
+
+// _16 for 0.16.4
+let vote_16 = new Serializer(
+    "vote_16", {
+        voter: string,
+        author: string,
+        permlink: string,
+        weight: int16
+    }
+);
+
+let comment_16 = new Serializer(
+    "comment_16", {
+        parent_author: string,
+        parent_permlink: string,
+        author: string,
+        permlink: string,
+        title: string,
+        body: string,
+        json_metadata: string
+    }
+);
+
+let transfer_16 = new Serializer(
+    "transfer_16", {
+        from: string,
+        to: string,
+        amount: asset_16,
+        memo: string
+    }
+);
+
+let transfer_to_vesting_16 = new Serializer(
+    "transfer_to_vesting_16", {
+        from: string,
+        to: string,
+        amount: asset_16
+    }
+);
+
+let withdraw_vesting_16 = new Serializer(
+    "withdraw_vesting_16", {
+        account: string,
+        vesting_shares: asset_16
+    }
+);
+
+let limit_order_create_16 = new Serializer(
+    "limit_order_create_16", {
+        owner: string,
+        order_id: uint32,
+        amount_to_sell: asset_16,
+        min_to_receive: asset_16,
+        fill_or_kill: bool,
+        expiration: time_point_sec
+    }
+);
+
+let limit_order_cancel_16 = new Serializer(
+    "limit_order_cancel_16", {
+        owner: string,
+        order_id: uint32
+    }
+);
+
+let price_16 = new Serializer(
+    "price_16", {
+        base: asset_16,
+        quote: asset_16
+    }
+);
+
+let feed_publish_16 = new Serializer(
+    "feed_publish_16", {
+        publisher: string,
+        exchange_rate: price_16
+    }
+);
+
+let convert_16 = new Serializer(
+    "convert_16", {
+        owner: string,
+        request_id: uint32,
+        amount: asset_16
+    }
+);
+
+let account_create_16 = new Serializer(
+    "account_create_16", {
+        fee: asset_16,
+        creator: string,
+        new_account_name: string,
+        owner: authority,
+        active: authority,
+        posting: authority,
+        memo_key: public_key,
+        json_metadata: string
+    }
+);
+  
+let account_update_16 = new Serializer(
+    "account_update_16", {
+        account: string,
+        owner: optional(authority),
+        active: optional(authority),
+        posting: optional(authority),
+        memo_key: public_key,
+        json_metadata: string
+    }
+);
+
+let chain_properties_16 = new Serializer(
+    "chain_properties_16", {
+        account_creation_fee: asset_16,
+        maximum_block_size: uint32,
+        sbd_interest_rate: uint16
+    }
+);
+
+let witness_update_16 = new Serializer(
+    "witness_update_16", {
+        owner: string,
+        url: string,
+        block_signing_key: public_key,
+        props: chain_properties_16,
+        fee: asset_16
+    }
+);
+  
+let account_witness_vote_16 = new Serializer(
+    "account_witness_vote_16", {
+        account: string,
+        witness: string,
+        approve: bool
+    }
+);
+  
+let account_witness_proxy_16 = new Serializer(
+    "account_witness_proxy_16", {
+        account: string,
+        proxy: string
+    }
+);
+
+let pow_16 = new Serializer(
+    "pow_16", {
+        worker_account: string,
+        block_id: bytes(20),
+        nonce: uint64,
+        work: pow,
+        props: chain_properties_16
+    }
+);
+
+let report_over_production_16 = new Serializer(
+    "report_over_production_16", {
+        reporter: string,
+        first_block: signed_block_header,
+        second_block: signed_block_header
+    }
+);
+  
+let delete_comment_16 = new Serializer(
+    "delete_comment_16", {
+        author: string,
+        permlink: string
+    }
+);
+
+let comment_options_16 = new Serializer(
+    "comment_options_16", {
+    author: string,
+    permlink: string,
+    max_accepted_payout: asset,
+    percent_steem_dollars: uint16,
+    allow_votes: bool,
+    allow_curation_rewards: bool,
+    extensions: set(static_variant([
+        comment_payout_beneficiaries
+    ]))
+  }
+);
+
+let set_withdraw_vesting_route_16 = new Serializer(
+    "set_withdraw_vesting_route_16", {
+        from_account: string,
+        to_account: string,
+        percent: uint16,
+        auto_vest: bool
+    }
+);
+  
+let limit_order_create2_16 = new Serializer(
+    "limit_order_create2_16", {
+        owner: string,
+        order_id: uint32,
+        amount_to_sell: asset_16,
+        exchange_rate: price_16,
+        fill_or_kill: bool,
+        expiration: time_point_sec
+    }
+);
+  
+let challenge_authority_16 = new Serializer(
+    "challenge_authority_16", {
+        challenger: string,
+        challenged: string,
+        require_owner: bool
+    }
+);
+
+let prove_authority_16 = new Serializer(
+    "prove_authority_16", {
+        challenged: string,
+        require_owner: bool
+    }
+);
+
+let request_account_recovery_16 = new Serializer(
+    "request_account_recovery_16", {
+        recovery_account: string,
+        account_to_recover: string,
+        new_owner_authority: authority,
+        extensions: set(future_extensions)
+    }
+);
+  
+let recover_account_16 = new Serializer(
+    "recover_account_16", {
+        account_to_recover: string,
+        new_owner_authority: authority,
+        recent_owner_authority: authority,
+        extensions: set(future_extensions)
+    }
+);
+  
+let change_recovery_account_16 = new Serializer(
+    "change_recovery_account_16", {
+        account_to_recover: string,
+        new_recovery_account: string,
+        extensions: set(future_extensions)
+    }
+);
+
+let escrow_transfer_16 = new Serializer(
+    "escrow_transfer_16", {
+        from: string,
+        to: string,
+        sbd_amount: asset_16,
+        steem_amount: asset_16,
+        escrow_id: uint32,
+        agent: string,
+        fee: asset_16,
+        json_meta: string,
+        ratification_deadline: time_point_sec,
+        escrow_expiration: time_point_sec
+    }
+);
+  
+let escrow_dispute_16 = new Serializer(
+    "escrow_dispute_16", {
+        from: string,
+        to: string,
+        agent: string,
+        who: string,
+        escrow_id: uint32
+    }
+);
+  
+let escrow_release_16 = new Serializer(
+    "escrow_release_16", {
+        from: string,
+        to: string,
+        agent: string,
+        who: string,
+        receiver: string,
+        escrow_id: uint32,
+        sbd_amount: asset_16,
+        steem_amount: asset_16
+    }
+);
+
+let pow2_16 = new Serializer(
+    "pow2_16", {
+        work: static_variant([
+            pow2, equihash_pow
+        ]),
+        new_owner_key: optional(public_key),
+        props: chain_properties_16
+    }
+);
+
+let escrow_approve_16 = new Serializer(
+    "escrow_approve_16", {
+        from: string,
+        to: string,
+        agent: string,
+        who: string,
+        escrow_id: uint32,
+        approve: bool
+    }
+);
+
+let transfer_to_savings_16 = new Serializer(
+    "transfer_to_savings_16", {
+        from: string,
+        to: string,
+        amount: asset_16,
+        memo: string
+    }
+);
+  
+let transfer_from_savings_16 = new Serializer(
+    "transfer_from_savings_16", {
+        from: string,
+        request_id: uint32,
+        to: string,
+        amount: asset_16,
+        memo: string
+    }
+);
+
+let cancel_transfer_from_savings_16 = new Serializer(
+    "cancel_transfer_from_savings_16", {
+        from: string,
+        request_id: uint32
+    }
+);
+
+let decline_voting_rights_16 = new Serializer(
+    "decline_voting_rights_16", {
+        account: string,
+        decline: bool
+    }
+);
+
+let reset_account_16 = new Serializer(
+    "reset_account_16", {
+        reset_account: string,
+        account_to_reset: string,
+        new_owner_authority: authority
+    }
+);
+  
+let set_reset_account_16 = new Serializer(
+    "set_reset_account_16", {
+        account: string,
+        current_reset_account: string,
+        reset_account: string
+    }
+);
+ 
+let comment_benefactor_reward_16 = new Serializer(
+    "comment_benefactor_reward_16", {
+        benefactor: string,
+        author: string,
+        permlink: string,
+        reward: asset_16
+    }
+);
+
+let fill_convert_request_16 = new Serializer(
+    "fill_convert_request_16", {
+        owner: string,
+        requestid: uint32,
+        amount_in: asset_16,
+        amount_out: asset_16
+    }
+);
+
+let author_reward_16 = new Serializer(
+    "author_reward_16", {
+        author: string,
+        permlink: string,
+        sbd_payout: asset_16,
+        steem_payout: asset_16,
+        vesting_payout: asset_16
+    }
+);
+
+let curation_reward_16 = new Serializer(
+    "curation_reward_16", {
+        curator: string,
+        reward: asset_16,
+        comment_author: string,
+        comment_permlink: string
+    }
+);
+
+let comment_reward_16 = new Serializer(
+    "comment_reward_16", {
+        author: string,
+        permlink: string,
+        payout: asset_16
+    }
+);
+  
+let liquidity_reward_16 = new Serializer(
+    "liquidity_reward_16", {
+        owner: string,
+        payout: asset_16
+    }
+);
+  
+let interest_16 = new Serializer(
+    "interest_16", {
+        owner: string,
+        interest: asset_16
+    }
+);
+
+let fill_vesting_withdraw_16 = new Serializer(
+    "fill_vesting_withdraw_16", {
+        from_account: string,
+        to_account: string,
+        withdrawn: asset_16,
+        deposited: asset_16
+    }
+);
+  
+let fill_order_16 = new Serializer(
+    "fill_order_16", {
+        current_owner: string,
+        current_order_id: uint32,
+        current_pays: asset_16,
+        open_owner: string,
+        open_order_id: uint32,
+        open_pays: asset_16
+    }
+);
+  
+let shutdown_witness_16 = new Serializer(
+    "shutdown_witness_16", {
+        owner: string
+    }
+);
+
+let fill_transfer_from_savings_16 = new Serializer(
+    "fill_transfer_from_savings_16", {
+        from: string,
+        amount: asset_16,
+        request_id: uint32,
+        to: string,
+        memo: string
+    }
+);
+  
+let hardfork_16 = new Serializer(
+    "hardfork_16", {
+        hardfork_id: uint32
+    }
+);
+  
+let comment_payout_update_16 = new Serializer(
+        "comment_payout_update_16", {
+        author: string,
+        permlink: string
+    }
+);
+
 operation.st_operations = [
+    vote_16,
+    comment_16,
+    transfer_16,
+    transfer_to_vesting_16,
+    withdraw_vesting_16,
+    limit_order_create_16,
+    limit_order_cancel_16,
+    feed_publish_16,
+    convert_16,
+    account_create_16,
+    account_update_16,
+    witness_update_16,
+    account_witness_vote_16,
+    account_witness_proxy_16,
+    pow_16,
+    custom,
+    report_over_production_16,
+    delete_comment_16,
+    custom_json,
+    comment_options_16,
+    set_withdraw_vesting_route_16,
+    limit_order_create2_16,
+    challenge_authority_16,
+    prove_authority_16,
+    request_account_recovery_16,
+    recover_account_16,
+    change_recovery_account_16,
+    escrow_transfer_16,
+    escrow_dispute_16,
+    escrow_release_16,
+    pow2_16,
+    escrow_approve_16,
+    transfer_to_savings_16,
+    transfer_from_savings_16,
+    cancel_transfer_from_savings_16,
+    custom_binary,
+    decline_voting_rights_16,
+    reset_account_16,
+    set_reset_account_16,
+    comment_benefactor_reward_16,
     vote,
     comment,
     transfer,
@@ -977,10 +1494,8 @@ operation.st_operations = [
     account_witness_vote,
     account_witness_proxy,
     pow,
-    custom,
     report_over_production,
     delete_comment,
-    custom_json,
     comment_options,
     set_withdraw_vesting_route,
     limit_order_create2,
@@ -997,12 +1512,11 @@ operation.st_operations = [
     transfer_to_savings,
     transfer_from_savings,
     cancel_transfer_from_savings,
-    custom_binary,
     decline_voting_rights,
     reset_account,
     set_reset_account,
     comment_benefactor_reward,
-    delegate_vesting_shares,
+    delegate_vesting_shares, 
     account_create_with_delegation,
     comment_payout_extension,
     asset_create,
@@ -1023,6 +1537,19 @@ operation.st_operations = [
     proposal_create,
     proposal_update,
     proposal_delete,
+    bid_collateral,
+    fill_convert_request_16,
+    author_reward_16,
+    curation_reward_16,
+    comment_reward_16,
+    liquidity_reward_16,
+    interest_16,
+    fill_vesting_withdraw_16,
+    fill_order_16,
+    shutdown_witness_16,
+    fill_transfer_from_savings_16,
+    hardfork_16,
+    comment_payout_update_16,
     fill_convert_request,
     author_reward,
     curation_reward,
@@ -1038,17 +1565,18 @@ operation.st_operations = [
     return_vesting_delegation,
     asset_settle_cancel,
     fill_call_order,
-    fill_settlement_order
+    fill_settlement_order,
+    execute_bid
 ];
 
 let transaction = new Serializer( 
     "transaction", {
-    ref_block_num: uint16,
-    ref_block_prefix: uint32,
-    expiration: time_point_sec,
-    operations: array(operation),
-    extensions: set(future_extensions)
-}
+        ref_block_num: uint16,
+        ref_block_prefix: uint32,
+        expiration: time_point_sec,
+        operations: array(operation),
+        extensions: set(future_extensions)
+    }
 );
 
 //# -------------------------------
@@ -1058,16 +1586,17 @@ let transaction = new Serializer(
 // Custom Types (do not over-write)
 
 const encrypted_memo = new Serializer(
-    "encrypted_memo",
-    {from: public_key,
-    to: public_key,
-    nonce: uint64,
-    check: uint32,
-    encrypted: string_binary}
+    "encrypted_memo", {
+        from: public_key,
+        to: public_key,
+        nonce: uint64,
+        check: uint32,
+        encrypted: string_binary
+    }
 );
 /*
 
-// Make sure all tests pass
+// Make sure all tests pass or not all %)
 
 npm test
 
