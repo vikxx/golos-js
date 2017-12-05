@@ -16,6 +16,7 @@ dist/golos-tests.min.js*
 .tern-port
 .envrc
 .idea
+.vscode
 .save
 lib
 dist
