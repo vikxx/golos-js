@@ -48,7 +48,7 @@ let allTypes = {
 
     static_variant: [
         ["transfer", {from:"alice", to:"bob", amount: "1.000 GOLOS", memo: ""}],
-        ["price", {base: "1.000 GOLOS", quote: "1.000 GOLOS"}],
+        ["price", {base: "1.000 GOLOS", quote: "1.0000 USER.ASSET"}],
     ],
 
     map: [[4,3], [2,1]],
