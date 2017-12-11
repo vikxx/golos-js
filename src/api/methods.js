@@ -25,27 +25,285 @@ module.exports = [
   },
   {
     "api": "database_api",
+    "method": "get_trending_categories",
+    "params": ["after", "limit"]
+  }, 
+  {
+    "api": "database_api",
+    "method": "get_best_categories",
+    "params": ["after", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_active_categories",
+    "params": ["after", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_recent_categories",
+    "params": ["after", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_active_witnesses"
+  },
+  {
+    "api": "database_api",
+    "method": "get_miner_queue"
+  },
+  {
+    "api": "database_api",
+    "method": "get_state",
+    "params": ["path"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_block_header",
+    "params": ["blockNum"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_block",
+    "params": ["blockNum"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_ops_in_block",
+    "params": ["blockNum", "onlyVirtual"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_config"
+  },
+  {
+    "api": "database_api",
+    "method": "get_dynamic_global_properties"
+  },
+  {
+    "api": "database_api",
+    "method": "get_chain_properties"
+  },
+  {
+    "api": "database_api",
+    "method": "get_current_median_history_price"
+  },
+  {
+    "api": "database_api",
+    "method": "get_feed_history"
+  },
+  {
+    "api": "database_api",
+    "method": "get_witness_schedule"
+  },
+  {
+    "api": "database_api",
+    "method": "get_hardfork_version"
+  },
+  {
+    "api": "database_api",
+    "method": "get_next_scheduled_hardfork"
+  },
+  {
+    "api": "database_api",
+    "method": "get_reward_fund",
+    "params": ["name"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_name_cost",
+    "params": ["name"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_accounts",
+    "params": ["names"]
+  },
+  {
+    "api": "database_api",
+    "method": "lookup_account_names",
+    "params": ["accountNames"]
+  },
+  {
+    "api": "database_api",
+    "method": "lookup_accounts",
+    "params": ["lowerBoundName", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_account_balances",
+    "params": ["name", "assets"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_account_count"
+  },
+  {
+    "api": "database_api",
+    "method": "get_owner_history",
+    "params": ["account"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_recovery_request",
+    "params": ["account"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_escrow",
+    "params": ["from", "escrowId"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_withdraw_routes",
+    "params": ["account", "withdrawRouteType"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_account_bandwidth",
+    "params": ["account", "bandwidthType"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_savings_withdraw_from",
+    "params": ["account"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_savings_withdraw_to",
+    "params": ["account"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_vesting_delegations",
+    "params": ["account", "from", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_delegated_vestings",
+    "params": ["account", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_expiring_vesting_delegations",
+    "params": ["account", "from", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_account_history",
+    "params": ["account", "from", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_witnesses",
+    "params": ["witnessIds"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_conversion_requests",
+    "params": ["accountName"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_witness_by_account",
+    "params": ["accountName"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_witnesses_by_vote",
+    "params": ["from", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "lookup_witness_accounts",
+    "params": ["lowerBoundName", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_witness_count"
+  },
+  {
+    "api": "database_api",
+    "method": "get_assets",
+    "params": ["assetSymbols"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_assets_by_issuer",
+    "params": ["issuer"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_assets_dynamic_data",
+    "params": ["assetSymbols"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_bitassets_data",
+    "params": ["assetSymbols"]
+  },
+  {
+    "api": "database_api",
+    "method": "list_assets",
+    "params": ["lowerBoundSymbol", "limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_transaction_hex",
+    "params": ["trx"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_transaction",
+    "params": ["trxId"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_required_signatures",
+    "params": ["trx", "availableKeys"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_potential_signatures",
+    "params": ["trx"]
+  },
+  {
+    "api": "database_api",
+    "method": "verify_authority",
+    "params": ["trx"]
+  },
+  {
+    "api": "database_api",
+    "method": "verify_account_authority",
+    "params": ["name", "signers"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_active_votes",
+    "params": ["author", "permlink"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_account_votes",
+    "params": ["voter"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_content",
+    "params": ["author", "permlink"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_content_replies",
+    "params": ["parent", "parentPermlink"]
+  },
+  {
+    "api": "database_api",
     "method": "get_tags_used_by_author",
     "params": ["author"]
   },
   {
     "api": "database_api",
-    "method": "get_post_discussions_by_payout",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_comment_discussions_by_payout",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
     "method": "get_discussions_by_trending",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_discussions_by_trending30",
     "params": ["query"]
   },
   {
@@ -66,6 +324,16 @@ module.exports = [
   {
     "api": "database_api",
     "method": "get_discussions_by_payout",
+    "params": ["query"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_post_discussions_by_payout",
+    "params": ["query"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_comment_discussions_by_payout",
     "params": ["query"]
   },
   {
@@ -105,204 +373,8 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_block_header",
-    "params": ["blockNum"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_block",
-    "params": ["blockNum"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_ops_in_block",
-    "params": ["blockNum", "onlyVirtual"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_state",
-    "params": ["path"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_trending_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_best_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_active_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_recent_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_config"
-  },
-  {
-    "api": "database_api",
-    "method": "get_dynamic_global_properties"
-  },
-  {
-    "api": "database_api",
-    "method": "get_chain_properties"
-  },
-  {
-    "api": "database_api",
-    "method": "get_feed_history"
-  },
-  {
-    "api": "database_api",
-    "method": "get_current_median_history_price"
-  },
-  {
-    "api": "database_api",
-    "method": "get_witness_schedule"
-  },
-  {
-    "api": "database_api",
-    "method": "get_hardfork_version"
-  },
-  {
-    "api": "database_api",
-    "method": "get_next_scheduled_hardfork"
-  },
-  {
-    "api": "account_by_key_api",
-    "method": "get_key_references",
-    "params": ["key"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_accounts",
-    "params": ["names"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_references",
-    "params": ["accountId"]
-  },
-  {
-    "api": "database_api",
-    "method": "lookup_account_names",
-    "params": ["accountNames"]
-  },
-  {
-    "api": "database_api",
-    "method": "lookup_accounts",
-    "params": ["lowerBoundName", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_balances",
-    "params": ["name", "assets"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_count"
-  },
-  {
-    "api": "database_api",
-    "method": "get_conversion_requests",
-    "params": ["accountName"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_history",
-    "params": ["account", "from", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_owner_history",
-    "params": ["account"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_recovery_request",
-    "params": ["account"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_escrow",
-    "params": ["from", "escrowId"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_withdraw_routes",
-    "params": ["account", "withdrawRouteType"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_bandwidth",
-    "params": ["account", "bandwidthType"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_savings_withdraw_from",
-    "params": ["account"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_savings_withdraw_to",
-    "params": ["account"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_transaction_hex",
-    "params": ["trx"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_transaction",
-    "params": ["trxId"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_required_signatures",
-    "params": ["trx", "availableKeys"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_potential_signatures",
-    "params": ["trx"]
-  },
-  {
-    "api": "database_api",
-    "method": "verify_authority",
-    "params": ["trx"]
-  },
-  {
-    "api": "database_api",
-    "method": "verify_account_authority",
-    "params": ["nameOrId", "signers"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_active_votes",
-    "params": ["author", "permlink"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_votes",
-    "params": ["voter"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_content",
-    "params": ["author", "permlink"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_content_replies",
-    "params": ["parent", "parentPermlink"]
+    "method": "get_replies_by_last_update",
+    "params": ["startAuthor", "startPermlink", "limit"]
   },
   {
     "api": "database_api",
@@ -311,86 +383,31 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_replies_by_last_update",
-    "params": ["startAuthor", "startPermlink", "limit"]
+    "method": "get_payout_extension_time",
+    "params": ["author", "startPermlink", "cost"]
   },
   {
     "api": "database_api",
-    "method": "get_witnesses",
-    "params": ["witnessIds"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_witness_by_account",
+    "method": "get_proposed_transactions",
     "params": ["accountName"]
   },
   {
+    "api": "account_by_key_api",
+    "method": "get_key_references",
+    "params": ["key"]
+  },
+// deprecated
+  {
     "api": "database_api",
-    "method": "get_witnesses_by_vote",
-    "params": ["from", "limit"]
+    "method": "get_discussions_by_trending30",
+    "params": ["query"]
   },
   {
     "api": "database_api",
-    "method": "lookup_witness_accounts",
-    "params": ["lowerBoundName", "limit"]
+    "method": "get_account_references",
+    "params": ["accountId"]
   },
-  {
-    "api": "database_api",
-    "method": "get_witness_count"
-  },
-  {
-    "api": "database_api",
-    "method": "get_active_witnesses"
-  },
-  {
-    "api": "database_api",
-    "method": "get_miner_queue"
-  },
-  {
-    "api": "database_api",
-    "method": "get_reward_fund",
-    "params": ["name"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_name_cost",
-    "params": ["name"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_vesting_delegations",
-    "params": ["account", "from", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_assets",
-    "params": ["assetSymbols"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_assets_by_issuer",
-    "params": ["issuer"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_assets_dynamic_data",
-    "params": ["assetSymbols"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_bitassets_data",
-    "params": ["assetSymbols"]
-  },
-  {
-    "api": "database_api",
-    "method": "list_assets",
-    "params": ["lowerBoundSymbol", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "lookup_asset_symbols",
-    "params": ["symbols"]
-  },
+//
   {
     "api": "login_api",
     "method": "login",
@@ -423,8 +440,7 @@ module.exports = [
   {
     "api": "follow_api",
     "method": "get_feed_entries",
-    "params": ["account", "entryId", "limit"
-    ]
+    "params": ["account", "entryId", "limit"]
   },
   {
     "api": "follow_api",
@@ -474,7 +490,7 @@ module.exports = [
   {
     "api": "network_broadcast_api",
     "method": "broadcast_block",
-    "params": ["b"]
+    "params": ["block"]
   },
   {
     "api": "network_broadcast_api",
@@ -561,12 +577,17 @@ module.exports = [
   },
   {
     "api": "market_history_api",
+    "method": "get_collateral_bids",
+    "params": ["assetName", "limit", "start"]
+  },
+  {
+    "api": "market_history_api",
     "method": "get_margin_positions",
     "params": ["account"]
   },
   {
     "api": "market_history_api",
     "method": "get_liquidity_queue",
-    "params": ["account", "limit"]
+    "params": ["startAccount", "limit"]
   }
 ];
