@@ -383,11 +383,6 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_payout_extension_time",
-    "params": ["author", "startPermlink", "cost"]
-  },
-  {
-    "api": "database_api",
     "method": "get_proposed_transactions",
     "params": ["accountName"]
   },
@@ -396,18 +391,6 @@ module.exports = [
     "method": "get_key_references",
     "params": ["key"]
   },
-// deprecated
-  {
-    "api": "database_api",
-    "method": "get_discussions_by_trending30",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_references",
-    "params": ["accountId"]
-  },
-//
   {
     "api": "login_api",
     "method": "login",
@@ -589,5 +572,36 @@ module.exports = [
     "api": "market_history_api",
     "method": "get_liquidity_queue",
     "params": ["startAccount", "limit"]
+  },
+  // Deprecated
+  {
+    "api": "database_api",
+    "method": "get_order_book",
+    "method_name": "getOrderBook_16",
+    "params": ["limit"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_open_orders",
+    "method_name": "getOpenOrders_16",
+    "params": ["owner"]
+  }, 
+  {
+    "api": "market_history_api",
+    "method": "get_ticker",
+    "method_name": "getTicker_16",
+    "params": []
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_trade_history",
+    "method_name": "getTradeHistory_16",
+    "params": ["start", "end", "limit"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_recent_trades",
+    "method_name": "getRecentTrades_16",
+    "params": ["limit"]
   }
 ];
