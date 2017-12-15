@@ -9,80 +9,71 @@ const chain_types = require('./ChainTypes')
 
 import { PublicKey, Address, ecc_config } from "../../ecc"
 import { fromImpliedDecimal } from "./number_utils"
+import config from "../../../config"
+import { getIdbyName } from "./utils"
 
 const Types = {}
 module.exports = Types
 
 const HEX_DUMP = process.env.npm_config__graphene_serializer_hex_dump
+const TEST = process.env.NODE_ENV === "test"
 
 Types.asset = {
-    fromByteBuffer(b){
+    fromByteBuffer(b) {
+        const api_version = config.get("api_version")
+
         let amount = b.readInt64()
-        let symbol = b.readVString()
+        let symbol
+        
+        if (api_version === "0.17") {
+            symbol = b.readVString()
+        } else {
+            let b_copy = b.copy(b.offset, b.offset + 7)
+            symbol = new Buffer(b_copy.toBinary(), "binary").toString().replace(/\x00/g, "")
+            b.skip(7)
+        }
         let precision = b.readUint8()
 
-        // "1.000 GOLOS" always written with full precision
         let amount_string = fromImpliedDecimal(amount, precision)
         return amount_string + " " + symbol
     },
-    appendByteBuffer(b, object){
+
+    appendByteBuffer(b, object) {
+        const api_version = config.get("api_version")
+        const maxSymbolLength = api_version === "0.17" ? 16 : 6
+
         object = object.trim()
-        if( ! /^[0-9]+\.?[0-9]* [A-Za-z0-9]+$/.test(object))
+        if( ! /^[0-9]+\.?[0-9]* [A-Za-z0-9]+\.?[A-Za-z0-9]+$/.test(object))
             throw new Error("Expecting amount like '99.000 SYMBOL', instead got '" + object + "'")
 
         let [ amount, symbol ] = object.split(" ")
-        // if(symbol.length > 16)
-        //     throw new Error("Symbols are not longer than 16 characters " + symbol + "-"+ symbol.length)
+        if(symbol.length > maxSymbolLength)
+            throw new Error(`Symbols are not longer than ${maxSymbolLength} characters ${symbol} - ${symbol.length}`)
 
         b.writeInt64(v.to_long(amount.replace(".", "")))
+
         let dot = amount.indexOf(".") // 0.000
         let precision = dot === -1 ? 0 : amount.length - dot - 1
+
+        if (api_version === "0.17") {
         b.writeVString(symbol.toUpperCase())
         b.writeUint8(precision)
-        return
-    },
-    fromObject(object){
-        return object
-    },
-    toObject(object, debug = {}){
-        if (debug.use_default && object === undefined) { return "0.000 GOLOS"; }
-        return object
+        } else {
+            b.writeUint8(precision)
+            b.append(symbol.toUpperCase(), "binary")
+            for(let i = 0; i < 7 - symbol.length; i++) {
+                b.writeUint8(0)
     }
 }
 
-Types.asset_16 = {
-    fromByteBuffer(b){
-        let amount = b.readInt64()
-        let precision = b.readUint8()
-        let b_copy = b.copy(b.offset, b.offset + 7)
-        let symbol = new Buffer(b_copy.toBinary(), "binary").toString().replace(/\x00/g, "")
-        b.skip(7);
-        // "1.000 GOLOS" always written with full precision
-        let amount_string = fromImpliedDecimal(amount, precision)
-        return amount_string + " " + symbol
-    },
-    appendByteBuffer(b, object){
-        object = object.trim()
-        if( ! /^[0-9]+\.?[0-9]* [A-Za-z0-9]+$/.test(object))
-            throw new Error("Expecting amount like '99.000 SYMBOL', instead got '" + object + "'")
-
-        let [ amount, symbol ] = object.split(" ")
-        if(symbol.length > 6)
-            throw new Error("Symbols are not longer than 6 characters " + symbol + "-"+ symbol.length)
-
-        b.writeInt64(v.to_long(amount.replace(".", "")))
-        let dot = amount.indexOf(".") // 0.000
-        let precision = dot === -1 ? 0 : amount.length - dot - 1
-        b.writeUint8(precision)
-        b.append(symbol.toUpperCase(), 'binary')
-        for(let i = 0; i < 7 - symbol.length; i++)
-            b.writeUint8(0)
         return
     },
-    fromObject(object){
+
+    fromObject(object) {
         return object
     },
-    toObject(object, debug = {}){
+
+    toObject(object, debug = {}) {
         if (debug.use_default && object === undefined) { return "0.000 GOLOS"; }
         return object
     }
@@ -746,11 +737,16 @@ Types.static_variant = function(_st_operations){
     return {
         nosort: true,
         st_operations: _st_operations,
+
     opTypeId(value) {
-        let pos = 0, type_id
-        if(typeof value === "number")
+        let type_id
+
+        if(typeof value === "number") {
             type_id = value
-        else {
+        } else {
+            // uncomment this for tests -> all_types
+            /* 
+            let pos = 0
             for(let op of this.st_operations) {
                 if(op.operation_name === value) {
                     type_id = pos
@@ -758,9 +754,14 @@ Types.static_variant = function(_st_operations){
                 }
                 pos++
             }
+            */
+
+            // and comment this line
+            type_id = getIdbyName(value, config.get('api_version'))
         }
         return type_id
     },
+
     fromByteBuffer(b){
         var type_id = b.readVarint32();
         var st_operation = this.st_operations[type_id];
@@ -773,6 +774,7 @@ Types.static_variant = function(_st_operations){
             st_operation.fromByteBuffer(b)
         ];
     },
+
     appendByteBuffer(b, object){
         v.required(object);
         var type_id = this.opTypeId(object[0]);
@@ -782,6 +784,7 @@ Types.static_variant = function(_st_operations){
         st_operation.appendByteBuffer(b, object[1]);
         return;
     },
+
     fromObject(object){
         v.required(object);
         let type_id = this.opTypeId(object[0]);
@@ -792,6 +795,7 @@ Types.static_variant = function(_st_operations){
             st_operation.fromObject(object[1])
         ];
     },
+
     toObject(object, debug = {}){
         if (debug.use_default && object === undefined) {
             return [this.st_operations[0].operation_name, this.st_operations[0].toObject(undefined, debug)];
@@ -805,6 +809,7 @@ Types.static_variant = function(_st_operations){
             st_operation.toObject(object[1], debug)
         ];
     },
+
     compare(a, b) {
         return strCmp(this.opTypeId(a[0]), this.opTypeId(b[0]))
     }

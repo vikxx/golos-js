@@ -35,8 +35,6 @@ import types from "./types"
 import SerializerImpl from "./serializer"
 
 const {
-    //id_type,
-    //varint32, int64, fixed_array, object_id_type, vote_id, address,
     int16,
     uint8,
     uint16,
@@ -47,8 +45,9 @@ const {
     bytes,
     bool,
     array,
-    // protocol_id_type,
-    static_variant, map, set,
+    static_variant,
+    map,
+    set,
     public_key,
     time_point_sec,
     optional,
@@ -67,20 +66,43 @@ const operation = static_variant();
 module.exports.operation = operation;
 
 // For module.exports
-const Serializer=function(operation_name, serilization_types_object){
+const Serializer = function(operation_name, serilization_types_object) {
     const s = new SerializerImpl(operation_name, serilization_types_object);
     return module.exports[operation_name] = s;
 }
 
-const beneficiaries = new Serializer("beneficiaries", {
-  account: string,
-  weight: uint16
-});
+const beneficiaries = new Serializer(
+    "beneficiaries", {
+        account: string,
+        weight: uint16
+    }
+);
 
-const comment_payout_beneficiaries = new Serializer(0, {
-  beneficiaries: set(beneficiaries)
-});
+const comment_payout_beneficiaries = new Serializer(
+    0, {
+        beneficiaries: set(beneficiaries)
+    }
+);
 
+const transaction = new Serializer( 
+    "transaction", {
+        ref_block_num: uint16,
+        ref_block_prefix: uint32,
+        expiration: time_point_sec,
+        operations: array(operation),
+        extensions: set(future_extensions)
+    }
+);
+
+const encrypted_memo = new Serializer(
+    "encrypted_memo", {
+        from: public_key,
+        to: public_key,
+        nonce: uint64,
+        check: uint32,
+        encrypted: string_binary
+    }
+);
 // Custom-types after Generated code
 
 // ##  Generated code follows
@@ -107,58 +129,58 @@ With: map((string), (uint16))
 */
 let signed_transaction = new Serializer(
     "signed_transaction", {
-    ref_block_num: uint16,
-    ref_block_prefix: uint32,
-    expiration: time_point_sec,
-    operations: array(operation),
-    extensions: set(future_extensions),
-    signatures: array(bytes(65))
-}
+        ref_block_num: uint16,
+        ref_block_prefix: uint32,
+        expiration: time_point_sec,
+        operations: array(operation),
+        extensions: set(future_extensions),
+        signatures: array(bytes(65))
+    }
 );
 
 let signed_block = new Serializer(
     "signed_block", {
-    previous: bytes(20),
-    timestamp: time_point_sec,
-    witness: string,
-    transaction_merkle_root: bytes(20),
-    extensions: set(static_variant([
-        future_extensions,    
-        version,    
-        hardfork_version_vote
-    ])),
-    witness_signature: bytes(65),
-    transactions: array(signed_transaction)
-}
+        previous: bytes(20),
+        timestamp: time_point_sec,
+        witness: string,
+        transaction_merkle_root: bytes(20),
+        extensions: set(static_variant([
+            future_extensions,    
+            version,    
+            hardfork_version_vote
+        ])),
+        witness_signature: bytes(65),
+        transactions: array(signed_transaction)
+    }
 );
 
 let block_header = new Serializer(
     "block_header", {
-    previous: bytes(20),
-    timestamp: time_point_sec,
-    witness: string,
-    transaction_merkle_root: bytes(20),
-    extensions: set(static_variant([
-        future_extensions,    
-        version,    
-        hardfork_version_vote
-    ]))
-}
+        previous: bytes(20),
+        timestamp: time_point_sec,
+        witness: string,
+        transaction_merkle_root: bytes(20),
+        extensions: set(static_variant([
+            future_extensions,    
+            version,    
+            hardfork_version_vote
+        ]))
+    }
 );
 
 let signed_block_header = new Serializer(
     "signed_block_header", {
-    previous: bytes(20),
-    timestamp: time_point_sec,
-    witness: string,
-    transaction_merkle_root: bytes(20),
-    extensions: set(static_variant([
-        future_extensions,    
-        version,    
-        hardfork_version_vote
-    ])),
-    witness_signature: bytes(65)
-}
+        previous: bytes(20),
+        timestamp: time_point_sec,
+        witness: string,
+        transaction_merkle_root: bytes(20),
+        extensions: set(static_variant([
+            future_extensions,    
+            version,    
+            hardfork_version_vote
+        ])),
+        witness_signature: bytes(65)
+    }
 );
 
 let vote = new Serializer(
@@ -789,8 +811,9 @@ let override_transfer = new Serializer(
 );
 
 let operation_wrapper = new Serializer(
-    "operation_wrapper",
-    {op: operation}
+    "operation_wrapper", {
+        op: operation
+    }
 );
 
 let proposal_create = new Serializer(
@@ -909,8 +932,9 @@ let fill_order = new Serializer(
 );
 
 let shutdown_witness = new Serializer(
-    "shutdown_witness",
-    {owner: string}
+    "shutdown_witness", {
+        owner: string
+    }
 );
 
 let fill_transfer_from_savings = new Serializer(
@@ -924,8 +948,9 @@ let fill_transfer_from_savings = new Serializer(
 );
 
 let hardfork = new Serializer(
-    "hardfork",
-    {hardfork_id: uint32}
+    "hardfork", {
+        hardfork_id: uint32
+    }
 );
 
 let comment_payout_update = new Serializer(
@@ -979,625 +1004,149 @@ let execute_bid = new Serializer(
   }
 );
 
-// _16 for 0.16.4
-let vote_16 = new Serializer(
-    "vote_16", {
-        voter: string,
-        author: string,
-        permlink: string,
-        weight: int16
-    }
-);
-
-let comment_16 = new Serializer(
-    "comment_16", {
-        parent_author: string,
-        parent_permlink: string,
-        author: string,
-        permlink: string,
-        title: string,
-        body: string,
-        json_metadata: string
-    }
-);
-
-let transfer_16 = new Serializer(
-    "transfer_16", {
-        from: string,
-        to: string,
-        amount: asset_16,
-        memo: string
-    }
-);
-
-let transfer_to_vesting_16 = new Serializer(
-    "transfer_to_vesting_16", {
-        from: string,
-        to: string,
-        amount: asset_16
-    }
-);
-
-let withdraw_vesting_16 = new Serializer(
-    "withdraw_vesting_16", {
-        account: string,
-        vesting_shares: asset_16
-    }
-);
-
-let limit_order_create_16 = new Serializer(
-    "limit_order_create_16", {
+let expire_witness_vote = new Serializer( 
+    "expire_witness_vote", {
         owner: string,
-        order_id: uint32,
-        amount_to_sell: asset_16,
-        min_to_receive: asset_16,
-        fill_or_kill: bool,
-        expiration: time_point_sec
-    }
-);
-
-let limit_order_cancel_16 = new Serializer(
-    "limit_order_cancel_16", {
-        owner: string,
-        order_id: uint32
-    }
-);
-
-let price_16 = new Serializer(
-    "price_16", {
-        base: asset_16,
-        quote: asset_16
-    }
-);
-
-let feed_publish_16 = new Serializer(
-    "feed_publish_16", {
-        publisher: string,
-        exchange_rate: price_16
-    }
-);
-
-let convert_16 = new Serializer(
-    "convert_16", {
-        owner: string,
-        request_id: uint32,
-        amount: asset_16
-    }
-);
-
-let account_create_16 = new Serializer(
-    "account_create_16", {
-        fee: asset_16,
-        creator: string,
-        new_account_name: string,
-        owner: authority,
-        active: authority,
-        posting: authority,
-        memo_key: public_key,
-        json_metadata: string
-    }
-);
-  
-let account_update_16 = new Serializer(
-    "account_update_16", {
-        account: string,
-        owner: optional(authority),
-        active: optional(authority),
-        posting: optional(authority),
-        memo_key: public_key,
-        json_metadata: string
-    }
-);
-
-let chain_properties_16 = new Serializer(
-    "chain_properties_16", {
-        account_creation_fee: asset_16,
-        maximum_block_size: uint32,
-        sbd_interest_rate: uint16
-    }
-);
-
-let witness_update_16 = new Serializer(
-    "witness_update_16", {
-        owner: string,
-        url: string,
-        block_signing_key: public_key,
-        props: chain_properties_16,
-        fee: asset_16
-    }
-);
-  
-let account_witness_vote_16 = new Serializer(
-    "account_witness_vote_16", {
-        account: string,
         witness: string,
-        approve: bool
-    }
-);
-  
-let account_witness_proxy_16 = new Serializer(
-    "account_witness_proxy_16", {
-        account: string,
-        proxy: string
+        creation_time: time_point_sec
     }
 );
 
-let pow_16 = new Serializer(
-    "pow_16", {
-        worker_account: string,
-        block_id: bytes(20),
-        nonce: uint64,
-        work: pow,
-        props: chain_properties_16
-    }
-);
-
-let report_over_production_16 = new Serializer(
-    "report_over_production_16", {
-        reporter: string,
-        first_block: signed_block_header,
-        second_block: signed_block_header
-    }
-);
-  
-let delete_comment_16 = new Serializer(
-    "delete_comment_16", {
-        author: string,
-        permlink: string
-    }
-);
-
-let comment_options_16 = new Serializer(
-    "comment_options_16", {
-    author: string,
-    permlink: string,
-    max_accepted_payout: asset,
-    percent_steem_dollars: uint16,
-    allow_votes: bool,
-    allow_curation_rewards: bool,
-    extensions: set(static_variant([
-        comment_payout_beneficiaries
-    ]))
-  }
-);
-
-let set_withdraw_vesting_route_16 = new Serializer(
-    "set_withdraw_vesting_route_16", {
-        from_account: string,
-        to_account: string,
-        percent: uint16,
-        auto_vest: bool
-    }
-);
-  
-let limit_order_create2_16 = new Serializer(
-    "limit_order_create2_16", {
-        owner: string,
-        order_id: uint32,
-        amount_to_sell: asset_16,
-        exchange_rate: price_16,
-        fill_or_kill: bool,
-        expiration: time_point_sec
-    }
-);
-  
-let challenge_authority_16 = new Serializer(
-    "challenge_authority_16", {
-        challenger: string,
-        challenged: string,
-        require_owner: bool
-    }
-);
-
-let prove_authority_16 = new Serializer(
-    "prove_authority_16", {
-        challenged: string,
-        require_owner: bool
-    }
-);
-
-let request_account_recovery_16 = new Serializer(
-    "request_account_recovery_16", {
-        recovery_account: string,
-        account_to_recover: string,
-        new_owner_authority: authority,
-        extensions: set(future_extensions)
-    }
-);
-  
-let recover_account_16 = new Serializer(
-    "recover_account_16", {
-        account_to_recover: string,
-        new_owner_authority: authority,
-        recent_owner_authority: authority,
-        extensions: set(future_extensions)
-    }
-);
-  
-let change_recovery_account_16 = new Serializer(
-    "change_recovery_account_16", {
-        account_to_recover: string,
-        new_recovery_account: string,
-        extensions: set(future_extensions)
-    }
-);
-
-let escrow_transfer_16 = new Serializer(
-    "escrow_transfer_16", {
-        from: string,
-        to: string,
-        sbd_amount: asset_16,
-        steem_amount: asset_16,
-        escrow_id: uint32,
-        agent: string,
-        fee: asset_16,
-        json_meta: string,
-        ratification_deadline: time_point_sec,
-        escrow_expiration: time_point_sec
-    }
-);
-  
-let escrow_dispute_16 = new Serializer(
-    "escrow_dispute_16", {
-        from: string,
-        to: string,
-        agent: string,
-        who: string,
-        escrow_id: uint32
-    }
-);
-  
-let escrow_release_16 = new Serializer(
-    "escrow_release_16", {
-        from: string,
-        to: string,
-        agent: string,
-        who: string,
-        receiver: string,
-        escrow_id: uint32,
-        sbd_amount: asset_16,
-        steem_amount: asset_16
-    }
-);
-
-let pow2_16 = new Serializer(
-    "pow2_16", {
-        work: static_variant([
-            pow2, equihash_pow
-        ]),
-        new_owner_key: optional(public_key),
-        props: chain_properties_16
-    }
-);
-
-let escrow_approve_16 = new Serializer(
-    "escrow_approve_16", {
-        from: string,
-        to: string,
-        agent: string,
-        who: string,
-        escrow_id: uint32,
-        approve: bool
-    }
-);
-
-let transfer_to_savings_16 = new Serializer(
-    "transfer_to_savings_16", {
-        from: string,
-        to: string,
-        amount: asset_16,
-        memo: string
-    }
-);
-  
-let transfer_from_savings_16 = new Serializer(
-    "transfer_from_savings_16", {
-        from: string,
-        request_id: uint32,
-        to: string,
-        amount: asset_16,
-        memo: string
-    }
-);
-
-let cancel_transfer_from_savings_16 = new Serializer(
-    "cancel_transfer_from_savings_16", {
-        from: string,
-        request_id: uint32
-    }
-);
-
-let decline_voting_rights_16 = new Serializer(
-    "decline_voting_rights_16", {
-        account: string,
-        decline: bool
-    }
-);
-
-let reset_account_16 = new Serializer(
-    "reset_account_16", {
-        reset_account: string,
-        account_to_reset: string,
-        new_owner_authority: authority
-    }
-);
-  
-let set_reset_account_16 = new Serializer(
-    "set_reset_account_16", {
-        account: string,
-        current_reset_account: string,
-        reset_account: string
-    }
-);
- 
-let comment_benefactor_reward_16 = new Serializer(
-    "comment_benefactor_reward_16", {
-        benefactor: string,
-        author: string,
-        permlink: string,
-        reward: asset_16
-    }
-);
-
-let fill_convert_request_16 = new Serializer(
-    "fill_convert_request_16", {
-        owner: string,
-        requestid: uint32,
-        amount_in: asset_16,
-        amount_out: asset_16
-    }
-);
-
-let author_reward_16 = new Serializer(
-    "author_reward_16", {
-        author: string,
-        permlink: string,
-        sbd_payout: asset_16,
-        steem_payout: asset_16,
-        vesting_payout: asset_16
-    }
-);
-
-let curation_reward_16 = new Serializer(
-    "curation_reward_16", {
-        curator: string,
-        reward: asset_16,
-        comment_author: string,
-        comment_permlink: string
-    }
-);
-
-let comment_reward_16 = new Serializer(
-    "comment_reward_16", {
-        author: string,
-        permlink: string,
-        payout: asset_16
-    }
-);
-  
-let liquidity_reward_16 = new Serializer(
-    "liquidity_reward_16", {
-        owner: string,
-        payout: asset_16
-    }
-);
-  
-let interest_16 = new Serializer(
-    "interest_16", {
-        owner: string,
-        interest: asset_16
-    }
-);
-
-let fill_vesting_withdraw_16 = new Serializer(
-    "fill_vesting_withdraw_16", {
-        from_account: string,
-        to_account: string,
-        withdrawn: asset_16,
-        deposited: asset_16
-    }
-);
-  
-let fill_order_16 = new Serializer(
-    "fill_order_16", {
-        current_owner: string,
-        current_order_id: uint32,
-        current_pays: asset_16,
-        open_owner: string,
-        open_order_id: uint32,
-        open_pays: asset_16
-    }
-);
-  
-let shutdown_witness_16 = new Serializer(
-    "shutdown_witness_16", {
-        owner: string
-    }
-);
-
-let fill_transfer_from_savings_16 = new Serializer(
-    "fill_transfer_from_savings_16", {
-        from: string,
-        amount: asset_16,
-        request_id: uint32,
-        to: string,
-        memo: string
-    }
-);
-  
-let hardfork_16 = new Serializer(
-    "hardfork_16", {
-        hardfork_id: uint32
-    }
-);
-  
-let comment_payout_update_16 = new Serializer(
-        "comment_payout_update_16", {
-        author: string,
-        permlink: string
-    }
-);
-
-operation.st_operations = [
-    vote_16,
-    comment_16,
-    transfer_16,
-    transfer_to_vesting_16,
-    withdraw_vesting_16,
-    limit_order_create_16,
-    limit_order_cancel_16,
-    feed_publish_16,
-    convert_16,
-    account_create_16,
-    account_update_16,
-    witness_update_16,
-    account_witness_vote_16,
-    account_witness_proxy_16,
-    pow_16,
-    custom,
-    report_over_production_16,
-    delete_comment_16,
-    custom_json,
-    comment_options_16,
-    set_withdraw_vesting_route_16,
-    limit_order_create2_16,
-    challenge_authority_16,
-    prove_authority_16,
-    request_account_recovery_16,
-    recover_account_16,
-    change_recovery_account_16,
-    escrow_transfer_16,
-    escrow_dispute_16,
-    escrow_release_16,
-    pow2_16,
-    escrow_approve_16,
-    transfer_to_savings_16,
-    transfer_from_savings_16,
-    cancel_transfer_from_savings_16,
-    custom_binary,
-    decline_voting_rights_16,
-    reset_account_16,
-    set_reset_account_16,
-    comment_benefactor_reward_16,
-    vote,
-    comment,
-    transfer,
-    transfer_to_vesting,
-    withdraw_vesting,
-    limit_order_create,
-    limit_order_cancel,
-    feed_publish,
-    convert,
-    account_create,
-    account_update,
-    witness_update,
-    account_witness_vote,
-    account_witness_proxy,
-    pow,
-    report_over_production,
-    delete_comment,
-    comment_options,
-    set_withdraw_vesting_route,
-    limit_order_create2,
-    challenge_authority,
-    prove_authority,
-    request_account_recovery,
-    recover_account,
-    change_recovery_account,
-    escrow_transfer,
-    escrow_dispute,
-    escrow_release,
-    pow2,
-    escrow_approve,
-    transfer_to_savings,
-    transfer_from_savings,
-    cancel_transfer_from_savings,
-    decline_voting_rights,
-    reset_account,
-    set_reset_account,
-    comment_benefactor_reward,
-    delegate_vesting_shares, 
-    account_create_with_delegation,
-    comment_payout_extension,
-    asset_create,
-    asset_update,
-    asset_update_bitasset,
-    asset_update_feed_producers,
-    asset_issue,
-    asset_reserve,
-    asset_fund_fee_pool,
-    asset_settle,
-    asset_force_settle,
-    asset_global_settle,
-    asset_publish_feed,
-    asset_claim_fees,
-    call_order_update,
-    account_whitelist,
-    override_transfer,
-    proposal_create,
-    proposal_update,
-    proposal_delete,
-    bid_collateral,
-    fill_convert_request_16,
-    author_reward_16,
-    curation_reward_16,
-    comment_reward_16,
-    liquidity_reward_16,
-    interest_16,
-    fill_vesting_withdraw_16,
-    fill_order_16,
-    shutdown_witness_16,
-    fill_transfer_from_savings_16,
-    hardfork_16,
-    comment_payout_update_16,
-    fill_convert_request,
-    author_reward,
-    curation_reward,
-    comment_reward,
-    liquidity_reward,
-    interest,
-    fill_vesting_withdraw,
-    fill_order,
-    shutdown_witness,
-    fill_transfer_from_savings,
-    hardfork,
-    comment_payout_update,
-    return_vesting_delegation,
-    asset_settle_cancel,
-    fill_call_order,
-    fill_settlement_order,
-    execute_bid
-];
-
-let transaction = new Serializer( 
-    "transaction", {
-        ref_block_num: uint16,
-        ref_block_prefix: uint32,
-        expiration: time_point_sec,
-        operations: array(operation),
-        extensions: set(future_extensions)
-    }
-);
+operation.st_operations = {
+    0: vote,
+    1: comment,
+    2: transfer,
+    3: transfer_to_vesting,
+    4: withdraw_vesting,
+    5: limit_order_create,
+    6: limit_order_cancel,
+    7: feed_publish,
+    8: convert,
+    9: account_create,
+    10: account_update,
+    11: witness_update,
+    12: account_witness_vote,
+    13: account_witness_proxy,
+    14: pow,
+    15: custom,
+    16: report_over_production,
+    17: delete_comment,
+    18: custom_json,
+    19: comment_options,
+    20: set_withdraw_vesting_route,
+    21: limit_order_create2,
+    22: challenge_authority,
+    23: prove_authority,
+    24: request_account_recovery,
+    25: recover_account,
+    26: change_recovery_account,
+    27: escrow_transfer,
+    28: escrow_dispute,
+    29: escrow_release,
+    30: pow2,
+    31: escrow_approve,
+    32: transfer_to_savings,
+    33: transfer_from_savings,
+    34: cancel_transfer_from_savings,
+    35: custom_binary,
+    36: decline_voting_rights,
+    37: reset_account,
+    38: set_reset_account,
+    39: comment_benefactor_reward,
+    40: vote,
+    41: comment,
+    42: transfer,
+    43: transfer_to_vesting,
+    44: withdraw_vesting,
+    45: limit_order_create,
+    46: limit_order_cancel,
+    47: feed_publish,
+    48: convert,
+    49: account_create,
+    50: account_update,
+    51: witness_update,
+    52: account_witness_vote,
+    53: account_witness_proxy,
+    54: pow,
+    55: report_over_production,
+    56: delete_comment,
+    57: comment_options,
+    58: set_withdraw_vesting_route,
+    59: limit_order_create2,
+    60: challenge_authority,
+    61: prove_authority,
+    62: request_account_recovery,
+    63: recover_account,
+    64: change_recovery_account,
+    65: escrow_transfer,
+    66: escrow_dispute,
+    67: escrow_release,
+    68: pow2,
+    69: escrow_approve,
+    70: transfer_to_savings,
+    71: transfer_from_savings,
+    72: cancel_transfer_from_savings,
+    73: decline_voting_rights,
+    74: reset_account,
+    75: set_reset_account,
+    76: comment_benefactor_reward,
+    77: delegate_vesting_shares,
+    78: account_create_with_delegation,
+    79: asset_create,
+    80: asset_update,
+    81: asset_update_bitasset,
+    82: asset_update_feed_producers,
+    83: asset_issue,
+    84: asset_reserve,
+    85: asset_fund_fee_pool,
+    86: asset_settle,
+    87: asset_force_settle,
+    88: asset_global_settle,
+    89: asset_publish_feed,
+    90: asset_claim_fees,
+    91: call_order_update,
+    92: account_whitelist,
+    93: override_transfer,
+    94: proposal_create,
+    95: proposal_update,
+    96: proposal_delete,
+    97: bid_collateral,
+    98: fill_convert_request,
+    99: author_reward,
+    100: curation_reward,
+    101: comment_reward,
+    102: liquidity_reward,
+    103: interest,
+    104: fill_vesting_withdraw,
+    105: fill_order,
+    106: shutdown_witness,
+    107: fill_transfer_from_savings,
+    108: hardfork,
+    109: comment_payout_update,
+    110: fill_convert_request,
+    111: author_reward,
+    112: curation_reward,
+    113: comment_reward,
+    114: liquidity_reward,
+    115: interest,
+    116: fill_vesting_withdraw,
+    117: fill_order,
+    118: shutdown_witness,
+    119: fill_transfer_from_savings,
+    120: hardfork,
+    121: comment_payout_update,
+    122: return_vesting_delegation,
+    123: asset_settle_cancel,
+    124: fill_call_order,
+    126: fill_settlement_order,
+    126: execute_bid,
+    127: expire_witness_vote
+}
 
 //# -------------------------------
 //#  Generated code end  S T O P
 //# -------------------------------
 
-// Custom Types (do not over-write)
+// Make sure all tests pass
+// npm test
 
-const encrypted_memo = new Serializer(
-    "encrypted_memo", {
-        from: public_key,
-        to: public_key,
-        nonce: uint64,
-        check: uint32,
-        encrypted: string_binary
-    }
-);
-/*
-
-// Make sure all tests pass or not all %)
-
-npm test
-
-*/
