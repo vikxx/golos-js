@@ -48,7 +48,7 @@ let allTypes = {
 
     static_variant: [
         ["transfer", {from:"alice", to:"bob", amount: "1.000 GOLOS", memo: ""}],
-        ["price", {base: "1.000 GOLOS", quote: "1.0000 USER.ASSET"}],
+        ["price", {base: "1.000 GOLOS", quote: "99.000 SYMBOL"}]
     ],
 
     map: [[4,3], [2,1]],
@@ -63,9 +63,7 @@ let allTypes = {
     time_point_sec3: '2017-02-16T20:27:12',
 }
 
-// All test passed, but skipped
-// see types.js -> Types.static_variant -> opTypeId()
-describe.skip("golos.types", ()=> {
+describe("golos.types", ()=> {
 
     let { toObject, fromObject, toBuffer, fromBuffer } = AllTypes
 

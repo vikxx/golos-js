@@ -71,19 +71,6 @@ const Serializer = function(operation_name, serilization_types_object) {
     return module.exports[operation_name] = s;
 }
 
-const beneficiaries = new Serializer(
-    "beneficiaries", {
-        account: string,
-        weight: uint16
-    }
-);
-
-const comment_payout_beneficiaries = new Serializer(
-    0, {
-        beneficiaries: set(beneficiaries)
-    }
-);
-
 const transaction = new Serializer( 
     "transaction", {
         ref_block_num: uint16,
@@ -231,7 +218,7 @@ let withdraw_vesting = new Serializer(
 let limit_order_create = new Serializer(
     "limit_order_create", {
         owner: string,
-        order_id: uint32,
+        orderid: uint32,
         amount_to_sell: asset,
         min_to_receive: asset,
         fill_or_kill: bool,
@@ -242,7 +229,7 @@ let limit_order_create = new Serializer(
 let limit_order_cancel = new Serializer(
     "limit_order_cancel", {
         owner: string,
-        order_id: uint32
+        orderid: uint32
     }
 );
 
@@ -263,7 +250,7 @@ let feed_publish = new Serializer(
 let convert = new Serializer(
     "convert", {
         owner: string,
-        request_id: uint32,
+        requestid: uint32,
         amount: asset
     }
 );
@@ -382,9 +369,7 @@ let comment_options = new Serializer(
         percent_steem_dollars: uint16,
         allow_votes: bool,
         allow_curation_rewards: bool,
-        extensions: set(static_variant([
-            comment_payout_beneficiaries
-        ]))
+        extensions: set(future_extensions)
     }
 );
 
@@ -400,11 +385,11 @@ let set_withdraw_vesting_route = new Serializer(
 let limit_order_create2 = new Serializer(
     "limit_order_create2", {
         owner: string,
-        order_id: uint32,
+        orderid: uint32,
         amount_to_sell: asset,
-        expiration: time_point_sec,
         exchange_rate: price,
-        fill_or_kill: bool
+        fill_or_kill: bool,
+        expiration: time_point_sec
     }
 );
 
@@ -591,276 +576,6 @@ let set_reset_account = new Serializer(
     }
 );
 
-let comment_benefactor_reward = new Serializer(
-    "comment_benefactor_reward", {
-        benefactor: string,
-        author: string,
-        permlink: string,
-        reward: asset
-    }
-);
-
-let delegate_vesting_shares = new Serializer(
-    "delegate_vesting_shares", {
-        delegator: string,
-        delegatee: string,
-        vesting_shares: asset
-    }
-);
-
-let account_create_with_delegation = new Serializer(
-    "account_create_with_delegation", {
-        fee: asset,
-        delegation: asset,
-        creator: string,
-        new_account_name: string,
-        owner: authority,
-        active: authority,
-        posting: authority,
-        memo_key: public_key,
-        json_metadata: string,
-        extensions: set(future_extensions)
-    }
-);
-
-let comment_payout_extension = new Serializer(
-    "comment_payout_extension", {
-        payer: string,
-        author: string,
-        permlink: string,
-        extension_time: optional(time_point_sec),
-        amount: optional(asset)
-    }
-);
-
-let asset_options = new Serializer(
-    "asset_options", {
-        max_supply: uint64,
-        market_fee_percent: uint16,
-        max_market_fee: uint64,
-        issuer_permissions: uint16,
-        flags: uint16,
-        core_exchange_rate: price,
-        whitelist_authorities: set(string),
-        blacklist_authorities: set(string),
-        whitelist_markets: set(string),
-        blacklist_markets: set(string),
-        description: string,
-        extensions: set(future_extensions)
-    }
-);
-
-let bitasset_options = new Serializer(
-    "bitasset_options", {
-        feed_lifetime_sec: uint32,
-        minimum_feeds: uint8,
-        force_settlement_delay_sec: uint32,
-        force_settlement_offset_percent: uint16,
-        maximum_force_settlement_volume: uint16,
-        short_backing_asset: string,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_create = new Serializer(
-    "asset_create", {
-        issuer: string,
-        asset_name: string,
-        precision: uint8,
-        common_options: asset_options,
-        bitasset_opts: optional(bitasset_options),
-        is_prediction_market: bool,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_update = new Serializer(
-    "asset_update", {
-        issuer: string,
-        asset_to_update: string,
-        new_issuer: optional(string),
-        new_options: asset_options,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_update_bitasset = new Serializer(
-    "asset_update_bitasset", {
-        issuer: string,
-        asset_to_update: string,
-        new_options: bitasset_options,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_update_feed_producers = new Serializer(
-    "asset_update_feed_producers", {
-        issuer: string,
-        asset_to_update: string,
-        new_feed_producers: set(string),
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_issue = new Serializer(
-    "asset_issue", {
-        issuer: string,
-        asset_to_issue: asset,
-        issue_to_account: string,
-        memo: optional(string),
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_reserve = new Serializer(
-    "asset_reserve", {
-        payer: string,
-        amount_to_reserve: asset,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_fund_fee_pool = new Serializer(
-    "asset_fund_fee_pool", {
-        from_account: string,
-        asset_name: string,
-        amount: uint64,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_settle = new Serializer(
-    "asset_settle", {
-        account: string,
-        amount: asset,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_force_settle = new Serializer(
-    "asset_force_settle", {
-        account: string,
-        amount: asset,
-        settlement_id: uint32,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_global_settle = new Serializer(
-    "asset_global_settle", {
-        issuer: string,
-        asset_to_settle: string,
-        settle_price: price,
-        extensions: set(future_extensions)
-    }
-);
-
-let price_feed = new Serializer(
-    "price_feed", {
-        settlement_price: price,
-        maintenance_collateral_ratio: uint16,
-        maximum_short_squeeze_ratio: uint16,
-        core_exchange_rate: price
-    }
-);
-
-let asset_publish_feed = new Serializer(
-    "asset_publish_feed", {
-        publisher: string,
-        asset_name: string,
-        feed: price_feed,
-        extensions: set(future_extensions)
-    }
-);
-
-let asset_claim_fees = new Serializer(
-    "asset_claim_fees", {
-        issuer: string,
-        amount_to_claim: asset,
-        extensions: set(future_extensions)
-    }
-);
-
-let call_order_update = new Serializer(
-    "call_order_update", {
-        funding_account: string,
-        delta_collateral: asset,
-        delta_debt: asset
-    }
-);
-
-let account_whitelist = new Serializer(
-    "account_whitelist", {
-        fee: asset,
-        authorizing_account: string,
-        account_to_list: string,
-        new_listing: uint8,
-        extensions: set(future_extensions)
-    }
-);
-
-let override_transfer = new Serializer(
-    "override_transfer", {
-        issuer: string,
-        from: string,
-        to: string,
-        amount: asset,
-        memo: string,
-        extensions: set(future_extensions)
-    }
-);
-
-let operation_wrapper = new Serializer(
-    "operation_wrapper", {
-        op: operation
-    }
-);
-
-let proposal_create = new Serializer(
-    "proposal_create", {
-        owner: string,
-        proposal_id: uint32,
-        expiration_time: time_point_sec,
-        proposed_operations: array(operation_wrapper),
-        review_period_seconds: optional(uint32),
-        extensions: set(future_extensions)
-    }
-);
-
-let proposal_update = new Serializer(
-    "proposal_update", {
-        owner: string,
-        proposal_id: uint32,
-        active_approvals_to_add: set(string),
-        active_approvals_to_remove: set(string),
-        owner_approvals_to_add: set(string),
-        owner_approvals_to_remove: set(string),
-        posting_approvals_to_add: set(string),
-        posting_approvals_to_remove: set(string),
-        key_approvals_to_add: set(public_key),
-        key_approvals_to_remove: set(public_key),
-        extensions: set(future_extensions)
-    }
-);
-
-let proposal_delete = new Serializer(
-    "proposal_delete", {
-        owner: string,
-        using_owner_authority: bool,
-        proposal_id: uint32,
-        extensions: set(future_extensions)
-    }
-);
-
-let bid_collateral = new Serializer(
-    "bid_collateral", {
-        bidder: string,
-        additional_collateral: asset,
-        debt_covered: asset,
-        extensions: set(future_extensions)
-  }
-);
-
 let fill_convert_request = new Serializer(
     "fill_convert_request", {
         owner: string,
@@ -923,10 +638,10 @@ let fill_vesting_withdraw = new Serializer(
 let fill_order = new Serializer(
     "fill_order", {
         current_owner: string,
-        current_order_id: uint32,
+        current_orderid: uint32,
         current_pays: asset,
         open_owner: string,
-        open_order_id: uint32,
+        open_orderid: uint32,
         open_pays: asset
     }
 );
@@ -960,188 +675,59 @@ let comment_payout_update = new Serializer(
     }
 );
 
-let return_vesting_delegation = new Serializer(
-    "return_vesting_delegation", {
-        account: string,
-        vesting_shares: asset
-    }
-);
-
-let asset_settle_cancel = new Serializer(
-    "asset_settle_cancel", {
-        settlement: uint32,
-        account: string,
-        amount: asset,
-        extensions: set(future_extensions)
-    }
-);
-
-let fill_call_order = new Serializer(
-    "fill_call_order", {
-        order_id: uint32,
-        owner: string,
-        pays: asset,
-        receives: asset,
-        fee: asset
-    }
-);
-
-let fill_settlement_order = new Serializer(
-    "fill_settlement_order", {
-        order_id: uint32,
-        owner: string,
-        pays: asset,
-        receives: asset,
-        fee: asset
-    }
-);
-
-let execute_bid = new Serializer(
-    "execute_bid", {
-        bidder: string,
-        debt: asset,
-        collateral: asset
-  }
-);
-
-let expire_witness_vote = new Serializer( 
-    "expire_witness_vote", {
-        owner: string,
-        witness: string,
-        creation_time: time_point_sec
-    }
-);
-
-operation.st_operations = {
-    0: vote,
-    1: comment,
-    2: transfer,
-    3: transfer_to_vesting,
-    4: withdraw_vesting,
-    5: limit_order_create,
-    6: limit_order_cancel,
-    7: feed_publish,
-    8: convert,
-    9: account_create,
-    10: account_update,
-    11: witness_update,
-    12: account_witness_vote,
-    13: account_witness_proxy,
-    14: pow,
-    15: custom,
-    16: report_over_production,
-    17: delete_comment,
-    18: custom_json,
-    19: comment_options,
-    20: set_withdraw_vesting_route,
-    21: limit_order_create2,
-    22: challenge_authority,
-    23: prove_authority,
-    24: request_account_recovery,
-    25: recover_account,
-    26: change_recovery_account,
-    27: escrow_transfer,
-    28: escrow_dispute,
-    29: escrow_release,
-    30: pow2,
-    31: escrow_approve,
-    32: transfer_to_savings,
-    33: transfer_from_savings,
-    34: cancel_transfer_from_savings,
-    35: custom_binary,
-    36: decline_voting_rights,
-    37: reset_account,
-    38: set_reset_account,
-    39: comment_benefactor_reward,
-    40: vote,
-    41: comment,
-    42: transfer,
-    43: transfer_to_vesting,
-    44: withdraw_vesting,
-    45: limit_order_create,
-    46: limit_order_cancel,
-    47: feed_publish,
-    48: convert,
-    49: account_create,
-    50: account_update,
-    51: witness_update,
-    52: account_witness_vote,
-    53: account_witness_proxy,
-    54: pow,
-    55: report_over_production,
-    56: delete_comment,
-    57: comment_options,
-    58: set_withdraw_vesting_route,
-    59: limit_order_create2,
-    60: challenge_authority,
-    61: prove_authority,
-    62: request_account_recovery,
-    63: recover_account,
-    64: change_recovery_account,
-    65: escrow_transfer,
-    66: escrow_dispute,
-    67: escrow_release,
-    68: pow2,
-    69: escrow_approve,
-    70: transfer_to_savings,
-    71: transfer_from_savings,
-    72: cancel_transfer_from_savings,
-    73: decline_voting_rights,
-    74: reset_account,
-    75: set_reset_account,
-    76: comment_benefactor_reward,
-    77: delegate_vesting_shares,
-    78: account_create_with_delegation,
-    79: asset_create,
-    80: asset_update,
-    81: asset_update_bitasset,
-    82: asset_update_feed_producers,
-    83: asset_issue,
-    84: asset_reserve,
-    85: asset_fund_fee_pool,
-    86: asset_settle,
-    87: asset_force_settle,
-    88: asset_global_settle,
-    89: asset_publish_feed,
-    90: asset_claim_fees,
-    91: call_order_update,
-    92: account_whitelist,
-    93: override_transfer,
-    94: proposal_create,
-    95: proposal_update,
-    96: proposal_delete,
-    97: bid_collateral,
-    98: fill_convert_request,
-    99: author_reward,
-    100: curation_reward,
-    101: comment_reward,
-    102: liquidity_reward,
-    103: interest,
-    104: fill_vesting_withdraw,
-    105: fill_order,
-    106: shutdown_witness,
-    107: fill_transfer_from_savings,
-    108: hardfork,
-    109: comment_payout_update,
-    110: fill_convert_request,
-    111: author_reward,
-    112: curation_reward,
-    113: comment_reward,
-    114: liquidity_reward,
-    115: interest,
-    116: fill_vesting_withdraw,
-    117: fill_order,
-    118: shutdown_witness,
-    119: fill_transfer_from_savings,
-    120: hardfork,
-    121: comment_payout_update,
-    122: return_vesting_delegation,
-    123: asset_settle_cancel,
-    124: fill_call_order,
-    126: fill_settlement_order,
-    126: execute_bid,
-    127: expire_witness_vote
-}
+operation.st_operations = [
+    vote,
+    comment,
+    transfer,
+    transfer_to_vesting,
+    withdraw_vesting,
+    limit_order_create,
+    limit_order_cancel,
+    feed_publish,
+    convert,
+    account_create,
+    account_update,
+    witness_update,
+    account_witness_vote,
+    account_witness_proxy,
+    pow,
+    custom,
+    report_over_production,
+    delete_comment,
+    custom_json,
+    comment_options,
+    set_withdraw_vesting_route,
+    limit_order_create2,
+    challenge_authority,
+    prove_authority,
+    request_account_recovery,
+    recover_account,
+    change_recovery_account,
+    escrow_transfer,
+    escrow_dispute,
+    escrow_release,
+    pow2,
+    escrow_approve,
+    transfer_to_savings,
+    transfer_from_savings,
+    cancel_transfer_from_savings,
+    custom_binary,
+    decline_voting_rights,
+    reset_account,
+    set_reset_account,
+    fill_convert_request,
+    author_reward,
+    curation_reward,
+    comment_reward,
+    liquidity_reward,
+    interest,
+    fill_vesting_withdraw,
+    fill_order,
+    shutdown_witness,
+    fill_transfer_from_savings,
+    hardfork,
+    comment_payout_update
+];
 
 //# -------------------------------
 //#  Generated code end  S T O P
@@ -1149,4 +735,3 @@ operation.st_operations = {
 
 // Make sure all tests pass
 // npm test
-

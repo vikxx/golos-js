@@ -135,18 +135,6 @@ describe("golos.auth: types", function() {
 
     });
 
-    it("asset", function() {
-        assert.equal("905f01000000000005474f4c4f5303", Convert(type.asset).toHex("90.000 GOLOS"));
-        assert.equal("90.000 GOLOS", Convert(type.asset).fromHex("905f01000000000005474f4c4f5303"))
-
-        assert.equal("905f01000000000009544553542e434f494e03", Convert(type.asset).toHex("90.000 TEST.COIN"));
-        assert.equal("90.000 TEST.COIN", Convert(type.asset).fromHex("905f01000000000009544553542e434f494e03"))
-
-        assert.equal("905f0100000000000f434f494e434f494e434f494e434f4903", Convert(type.asset).toHex("90.000 COINCOINCOINCOI"));
-        assert.equal("90.000 COINCOINCOINCOI", Convert(type.asset).fromHex("905f0100000000000f434f494e434f494e434f494e434f4903"))
-
-        assert.throws(() => Convert(type.asset).toHex("90.000 TEST.CO.IN"))
-    });
 });
 
 var overflow = function(f){ return th.error("overflow", f); };

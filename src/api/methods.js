@@ -105,18 +105,13 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_reward_fund",
-    "params": ["name"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_name_cost",
-    "params": ["name"]
-  },
-  {
-    "api": "database_api",
     "method": "get_accounts",
     "params": ["names"]
+  },
+  {
+    "api": "database_api",
+    "method": "get_account_references",
+    "params": ["accountId"]
   },
   {
     "api": "database_api",
@@ -127,11 +122,6 @@ module.exports = [
     "api": "database_api",
     "method": "lookup_accounts",
     "params": ["lowerBoundName", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_balances",
-    "params": ["name", "assets"]
   },
   {
     "api": "database_api",
@@ -174,18 +164,13 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_vesting_delegations",
-    "params": ["account", "from", "limit"]
+    "method": "get_order_book",
+    "params": ["limit"]
   },
   {
     "api": "database_api",
-    "method": "get_delegated_vestings",
-    "params": ["account", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_expiring_vesting_delegations",
-    "params": ["account", "from", "limit"]
+    "method": "get_open_orders",
+    "params": ["owner"]
   },
   {
     "api": "database_api",
@@ -220,31 +205,6 @@ module.exports = [
   {
     "api": "database_api",
     "method": "get_witness_count"
-  },
-  {
-    "api": "database_api",
-    "method": "get_assets",
-    "params": ["assetSymbols"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_assets_by_issuer",
-    "params": ["issuer"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_assets_dynamic_data",
-    "params": ["assetSymbols"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_bitassets_data",
-    "params": ["assetSymbols"]
-  },
-  {
-    "api": "database_api",
-    "method": "list_assets",
-    "params": ["lowerBoundSymbol", "limit"]
   },
   {
     "api": "database_api",
@@ -328,16 +288,6 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_post_discussions_by_payout",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_comment_discussions_by_payout",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
     "method": "get_discussions_by_votes",
     "params": ["query"]
   },
@@ -383,8 +333,8 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_proposed_transactions",
-    "params": ["accountName"]
+    "method": "get_liquidity_queue",
+    "params": ["startAccount", "limit"]
   },
   {
     "api": "account_by_key_api",
@@ -482,126 +432,38 @@ module.exports = [
   },
   {
     "api": "market_history_api",
-    "method": "cancel_all_subscriptions"
-  },
-  {
-    "api": "market_history_api",
-    "method": "subscribe_to_market",
-    "params": ["cb", "firstAssetName", "secondAssetName"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "unsubscribe_from_market",
-    "params": ["firstAssetName", "secondAssetName"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_limit_orders_by_owner",
-    "params": ["owner"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_call_orders_by_owner",
-    "params": ["owner"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_settle_orders_by_owner",
-    "params": ["owner"]
-  },
-  {
-    "api": "market_history_api",
     "method": "get_ticker",
-    "params": ["base", "quote"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_volume",
-    "params": ["base", "quote"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_order_book",
-    "params": ["base", "quote", "limit"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_trade_history",
-    "params": ["base", "quote", "start", "stop", "limit"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_fill_order_history",
-    "params": ["base", "quote", "limit"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_market_history",
-    "params": ["base", "quote", "bucket_seconds" , "start", "end"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_market_history_buckets"
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_limit_orders",
-    "params": ["assetNameBeingSold", "assetNameBeingPurchased", "limit"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_call_orders",
-    "params": ["assetNameBeingCalled", "limit"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_settle_orders",
-    "params": ["assetNameBeingSettled", "limit"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_collateral_bids",
-    "params": ["assetName", "limit", "start"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_margin_positions",
-    "params": ["account"]
-  },
-  {
-    "api": "market_history_api",
-    "method": "get_liquidity_queue",
-    "params": ["startAccount", "limit"]
-  },
-  // Deprecated
-  {
-    "api": "database_api",
-    "method": "get_order_book",
-    "method_name": "getOrderBook_16",
-    "params": ["limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_open_orders",
-    "method_name": "getOpenOrders_16",
-    "params": ["owner"]
-  }, 
-  {
-    "api": "market_history_api",
-    "method": "get_ticker",
-    "method_name": "getTicker_16",
     "params": []
   },
   {
     "api": "market_history_api",
+    "method": "get_volume",
+    "params": []
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_order_book",
+    "method_name": "getMarketOrderBook",
+    "params": ["limit"]
+  },
+  {
+    "api": "market_history_api",
     "method": "get_trade_history",
-    "method_name": "getTradeHistory_16",
     "params": ["start", "end", "limit"]
   },
   {
     "api": "market_history_api",
     "method": "get_recent_trades",
-    "method_name": "getRecentTrades_16",
     "params": ["limit"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_market_history",
+    "params": ["bucket_seconds" , "start", "end"]
+  },
+  {
+    "api": "market_history_api",
+    "method": "get_market_history_buckets",
+    "params": []
   }
 ];

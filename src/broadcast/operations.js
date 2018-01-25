@@ -54,7 +54,7 @@ module.exports = [
     "operation": "limit_order_create",
     "params": [
       "owner",
-      "order_id",
+      "orderid",
       "amount_to_sell",
       "min_to_receive",
       "fill_or_kill",
@@ -66,7 +66,7 @@ module.exports = [
     "operation": "limit_order_cancel",
     "params": [
       "owner",
-      "order_id"
+      "orderid"
     ]
   },
   {
@@ -213,10 +213,10 @@ module.exports = [
     "operation": "limit_order_create2",
     "params": [
       "owner",
-      "order_id",
+      "orderid",
       "amount_to_sell",
-      "fill_or_kill",
       "exchange_rate",
+      "fill_or_kill",
       "expiration"
     ]
   },
@@ -402,31 +402,6 @@ module.exports = [
   },
   {
     "roles": ["active"],
-    "operation": "delegate_vesting_shares",
-    "params": [
-      "delegator",
-      "delegatee",
-      "vesting_shares"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "account_create_with_delegation",
-    "params": [
-      "fee",
-      "delegation",
-      "creator",
-      "new_account_name",
-      "owner",
-      "active",
-      "posting",
-      "memo_key",
-      "json_metadata",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
     "operation": "fill_convert_request",
     "params": [
       "owner",
@@ -492,136 +467,6 @@ module.exports = [
       "request_id",
       "memo"
     ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_create",
-    "params": [
-      "issuer",
-      "asset_name",
-      "precision",
-      "common_options",
-      "bitasset_opts",
-      "is_prediction_market",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_global_settle",
-    "params": [
-      "issuer",
-      "asset_to_settle",
-      "settle_price",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_settle",
-    "params": [
-      "account",
-      "amount",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_force_settle",
-    "params": [
-      "account",
-      "amount",
-      "settlement_id",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_fund_fee_pool",
-    "params": [
-      "from_account",
-      "asset_name",
-      "amount",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_update",
-    "params": [
-      "issuer",
-      "asset_to_update",
-      "new_issuer",
-      "new_options",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_update_bitasset",
-    "params": [
-      "issuer",
-      "asset_to_update",
-      "new_options",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_update_feed_producers",
-    "params": [
-      "issuer",
-      "asset_to_update",
-      "new_feed_producers",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_publish_feed",
-    "params": [
-      "publisher",
-      "asset_name",
-      "feed",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_issue",
-    "params": [
-      "issuer",
-      "asset_to_issue",
-      "issue_to_account",
-      "memo",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_reserve",
-    "params": [
-      "payer",
-      "amount_to_reserve",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "asset_claim_fees",
-    "params": [
-      "issuer",
-      "amount_to_claim",
-      "extensions"
-    ]
-  },
-  {
-    "roles": ["active"],
-    "operation": "call_order_update",
-    "params": [
-      "funding_account",
-      "delta_collateral",
-      "delta_debt"
-    ]
   }
-];
+]
+

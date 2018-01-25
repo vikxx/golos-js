@@ -2,22 +2,17 @@ import assert from 'assert'
 import golos from '../src'
 
 import { camelCase } from '../src/utils'
-import { methods_v17 } from './methods_by_version'
+import { methods_0_16_4 } from './methods_by_version'
 
 describe('golos.methods', () => {
 
     it('has all generated methods', () => {
-        let m16 = [
-            "getOrderBook_16",
-            "getOpenOrders_16",
-            "getTicker_16",
-            "getTradeHistory_16",
-            "getRecentTrades_16"
-        ]
 
-        const m17 = methods_v17
+        const methods = methods_0_16_4
             .map( m => `${camelCase(m)}`)
-            .concat(...m16)
+            .concat([
+                'getMarketOrderBook'
+            ])
             .sort()
 
         let libMethods = Object.keys(golos.api.Golos.prototype)
@@ -25,8 +20,8 @@ describe('golos.methods', () => {
             .filter( m => !m.endsWith('Async'))
             .sort()
         
-        assert.equal(libMethods.length, m17.length)
-        assert.deepEqual(libMethods, m17)
+        assert.equal(libMethods.length, methods.length)
+        assert.deepEqual(libMethods, methods)
     })
 
 })
