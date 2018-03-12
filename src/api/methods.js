@@ -400,7 +400,6 @@ module.exports = [
   {
     "api": "market_history",
     "method": "get_order_book",
-    "method_name": "getMarketOrderBook",
     "params": ["limit"]
   },
   {
@@ -422,5 +421,10 @@ module.exports = [
     "api": "market_history",
     "method": "get_market_history_buckets",
     "params": []
-  }
+  },
+  {
+    "api": "market_history",
+    "method": "get_open_orders",
+    "params": ["owner"]
+  },
 ]
