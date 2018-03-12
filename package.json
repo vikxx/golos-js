@@ -1,17 +1,17 @@
 {
   "name": "golos-js",
-  "version": "0.5.30",
+  "version": "0.6.0",
   "description": "Golos.js the JavaScript API for Golos blockchain",
   "main": "lib/index.js",
   "scripts": {
-    "test": "eslint --quiet src test; mocha -t 20000 --require babel-polyfill --require babel-register",
+    "test": "mocha -t 20000 --require babel-polyfill --require babel-register",
     "test-auth": "npm test -- --grep 'golos.auth'",
     "build": "npm run build-browser && npm run build-node",
     "build-browser": "rm -rf dist && NODE_ENV=production webpack && gzip -k -f ./dist/*.js && du -h ./dist/*",
     "build-node": "mkdir -p ./lib && cp -r ./src/* ./lib/ && babel ./src --out-dir ./lib",
     "prepublish": "npm run build",
     "disable-test-prepublish": "npm run test && npm run build"
-},
+  },
   "browser": {
     "ws": false,
     "crypto": false
@@ -47,8 +47,8 @@
     "ecurve": "^1.0.5",
     "lodash": "^4.16.4",
     "secure-random": "^1.1.1",
-    "ws": "^1.1.1"
-},
+    "ws": "^3.3.2"
+  },
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-eslint": "^7.1.1",
@@ -58,6 +58,7 @@
     "babel-preset-es2017": "^6.16.0",
     "babel-register": "^6.14.0",
     "bluebird": "^3.4.6",
+    "chai": "^4.1.2",
     "eslint": "^3.5.0",
     "eslint-plugin-import": "^1.15.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
@@ -68,7 +69,7 @@
     "should": "^11.1.0",
     "webpack": "^1.13.2",
     "webpack-visualizer-plugin": "^0.1.5"
-},
+  },
   "contributors": [
     "Fabien (https://github.com/bonustrack)",
     "James Calfee (https://github.com/jcalfee)",
