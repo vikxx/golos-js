@@ -1,10 +1,10 @@
 {
   "name": "golos-js",
-  "version": "0.5.30",
+  "version": "0.6.1",
   "description": "Golos.js the JavaScript API for Golos blockchain",
   "main": "lib/index.js",
   "scripts": {
-    "test": "eslint --quiet src test; mocha -t 20000 --require babel-polyfill --require babel-register",
+    "test": "mocha -t 20000 --require babel-polyfill --require babel-register",
     "test-auth": "npm test -- --grep 'golos.auth'",
     "build": "npm run build-browser && npm run build-node",
     "build-browser": "rm -rf dist && NODE_ENV=production webpack && gzip -k -f ./dist/*.js && du -h ./dist/*",
