@@ -1,60 +1,7 @@
 module.exports = [
   {
     "api": "database_api",
-    "method": "set_subscribe_callback",
-    "params": ["callback", "clearFilter"]
-  },
-  {
-    "api": "database_api",
-    "method": "set_pending_transaction_callback",
-    "params": ["cb"]
-  },
-  {
-    "api": "database_api",
-    "method": "set_block_applied_callback",
-    "params": ["cb"]
-  },
-  {
-    "api": "database_api",
-    "method": "cancel_all_subscriptions"
-  },
-  {
-    "api": "database_api",
-    "method": "get_trending_tags",
-    "params": ["afterTag", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_trending_categories",
-    "params": ["after", "limit"]
-  }, 
-  {
-    "api": "database_api",
-    "method": "get_best_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_active_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_recent_categories",
-    "params": ["after", "limit"]
-  },
-  {
-    "api": "database_api",
     "method": "get_active_witnesses"
-  },
-  {
-    "api": "database_api",
-    "method": "get_miner_queue"
-  },
-  {
-    "api": "database_api",
-    "method": "get_state",
-    "params": ["path"]
   },
   {
     "api": "database_api",
@@ -105,13 +52,13 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_accounts",
-    "params": ["names"]
+    "method": "get_account_references",
+    "params": ["accountId"]
   },
   {
     "api": "database_api",
-    "method": "get_account_references",
-    "params": ["accountId"]
+    "method": "get_accounts",
+    "params": ["names"]
   },
   {
     "api": "database_api",
@@ -161,21 +108,6 @@ module.exports = [
     "api": "database_api",
     "method": "get_savings_withdraw_to",
     "params": ["account"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_order_book",
-    "params": ["limit"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_open_orders",
-    "params": ["owner"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_account_history",
-    "params": ["account", "from", "limit"]
   },
   {
     "api": "database_api",
@@ -238,172 +170,207 @@ module.exports = [
   },
   {
     "api": "database_api",
-    "method": "get_active_votes",
-    "params": ["author", "permlink"]
+    "method": "get_account_history",
+    "params": ["account", "from", "limit"]
   },
   {
     "api": "database_api",
-    "method": "get_account_votes",
-    "params": ["voter"]
+    "method": "get_miner_queue"
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_content",
     "params": ["author", "permlink"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
+    "method": "get_trending_tags",
+    "params": ["afterTag", "limit"]
+  },
+  {
+    "api": "social_network",
     "method": "get_content_replies",
     "params": ["parent", "parentPermlink"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
+    "method": "get_all_content_replies",
+    "params": ["parent", "parentPermlink"]
+  },
+  {
+    "api": "social_network",
     "method": "get_tags_used_by_author",
     "params": ["author"]
   },
   {
-    "api": "database_api",
-    "method": "get_discussions_by_trending",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_discussions_by_created",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_discussions_by_active",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
-    "method": "get_discussions_by_cashout",
-    "params": ["query"]
-  },
-  {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_payout",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
+    "method": "get_post_discussions_by_payout",
+    "params": ["query"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_comment_discussions_by_payout",
+    "params": ["query"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_discussions_by_trending",
+    "params": ["query"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_discussions_by_created",
+    "params": ["query"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_discussions_by_active",
+    "params": ["query"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_discussions_by_cashout",
+    "params": ["query"]
+  },
+  {
+    "api": "social_network",
     "method": "get_discussions_by_votes",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_children",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_hot",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_feed",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_blog",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_comments",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_promoted",
     "params": ["query"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_replies_by_last_update",
     "params": ["startAuthor", "startPermlink", "limit"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
     "method": "get_discussions_by_author_before_date",
     "params": ["author", "startPermlink", "beforeDate", "limit"]
   },
   {
-    "api": "database_api",
+    "api": "social_network",
+    "method": "get_trending_categories",
+    "params": ["after", "limit"]
+  }, 
+  {
+    "api": "social_network",
+    "method": "get_active_categories",
+    "params": ["after", "limit"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_recent_categories",
+    "params": ["after", "limit"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_best_categories",
+    "params": ["after", "limit"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_account_votes",
+    "params": ["voter"]
+  },
+  {
+    "api": "social_network",
+    "method": "get_active_votes",
+    "params": ["author", "permlink"]
+  },
+  {
+    "api": "social_network",
     "method": "get_liquidity_queue",
     "params": ["startAccount", "limit"]
   },
   {
-    "api": "account_by_key_api",
-    "method": "get_key_references",
-    "params": ["key"]
-  },
-  {
-    "api": "login_api",
-    "method": "login",
-    "params": ["username", "password"]
-  },
-  {
-    "api": "login_api",
-    "method": "get_api_by_name",
-    "params": ["apiName"]
-  },
-  {
-    "api": "login_api",
-    "method": "get_version"
-  },
-  {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_followers",
     "params": ["following", "startFollower", "followType", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_following",
     "params": ["follower", "startFollowing", "followType", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_follow_count",
     "params": ["account"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_feed_entries",
     "params": ["account", "entryId", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_feed",
     "params": ["account", "entryId", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_blog_entries",
     "params": ["account", "entryId", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_blog",
     "params": ["account", "entryId", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_account_reputations",
     "params": ["lowerBoundName", "limit"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_reblogged_by",
     "params": ["author", "permlink"]
   },
   {
-    "api": "follow_api",
+    "api": "follow",
     "method": "get_blog_authors",
     "params": ["blogAccount"]
+  },
+  {
+    "api": "account_by_key",
+    "method": "get_key_references",
+    "params": ["account_name_type"]
   },
   {
     "api": "network_broadcast_api",
@@ -426,44 +393,43 @@ module.exports = [
     "params": ["block"]
   },
   {
-    "api": "network_broadcast_api",
-    "method": "set_max_block_age",
-    "params": ["maxBlockAge"]
-  },
-  {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_ticker",
     "params": []
   },
   {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_volume",
     "params": []
   },
   {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_order_book",
-    "method_name": "getMarketOrderBook",
     "params": ["limit"]
   },
   {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_trade_history",
     "params": ["start", "end", "limit"]
   },
   {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_recent_trades",
     "params": ["limit"]
   },
   {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_market_history",
     "params": ["bucket_seconds" , "start", "end"]
   },
   {
-    "api": "market_history_api",
+    "api": "market_history",
     "method": "get_market_history_buckets",
     "params": []
-  }
-];
+  },
+  {
+    "api": "market_history",
+    "method": "get_open_orders",
+    "params": ["owner"]
+  },
+]
