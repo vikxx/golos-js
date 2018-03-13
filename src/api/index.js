@@ -11,7 +11,6 @@ import { camelCase } from '../utils';
 const debugEmitters = newDebug('golos:emitters');
 const debugProtocol = newDebug('golos:protocol');
 const debugSetup = newDebug('golos:setup');
-const debugApiIds = newDebug('golos:api_ids');
 const debugWs = newDebug('golos:ws');
 
 let WebSocket;
@@ -24,12 +23,6 @@ if (isNode) {
 }
 
 const DEFAULTS = {
-  apiIds: {
-    database_api: 0,
-    login_api: 1,
-    follow_api: 2,
-    network_broadcast_api: 4,
-  },
   id: 0,
 };
 
@@ -40,17 +33,12 @@ class Golos extends EventEmitter {
     super(options);
     defaults(options, DEFAULTS);
     this.options = cloneDeep(options);
-
     this.id = 0;
     this.inFlight = 0;
     this.currentP = Promise.fulfilled();
-    this.apiIds = this.options.apiIds;
     this.isOpen = false;
     this.releases = [];
     this.requests = {};
-
-    // A Map of api name to a promise to it's API ID refresh call
-    this.apiIdsP = {};
   }
 
   setWebSocket(url) {
@@ -84,9 +72,7 @@ class Golos extends EventEmitter {
         this.stop();
 
         if (startP.isPending()) {
-          reject(new Error(
-            'The WS connection was closed before this operation was made'
-          ));
+          reject(new Error('The WS connection was closed before this operation was made'));
         }
       });
 
@@ -111,7 +97,6 @@ class Golos extends EventEmitter {
     });
 
     this.startP = startP;
-    this.getApiIds();
 
     return startP;
   }
@@ -119,7 +104,6 @@ class Golos extends EventEmitter {
   stop() {
     debugSetup('Stopping...');
     if (this.ws) this.ws.close();
-    this.apiIdsP = {};
     delete this.startP;
     delete this.ws;
     this.releases.forEach((release) => release());
@@ -138,40 +122,6 @@ class Golos extends EventEmitter {
     };
   }
 
-  /**
-   * Refreshes API IDs, populating the `Golos::apiIdsP` map.
-   *
-   * @param {String} [requestName] If provided, only this API will be refreshed
-   * @param {Boolean} [force] If true the API will be forced to refresh, ignoring existing results
-   */
-
-  getApiIds(requestName, force) {
-    if (!force && requestName && this.apiIdsP[requestName]) {
-      return this.apiIdsP[requestName];
-    }
-
-    const apiNamesToRefresh = requestName ? [requestName] : Object.keys(this.apiIds);
-    apiNamesToRefresh.forEach((name) => {
-      debugApiIds('Syncing API ID', name);
-      this.apiIdsP[name] = this.getApiByNameAsync(name).then((result) => {
-        if (result != null) {
-          this.apiIds[name] = result;
-        } else {
-          debugApiIds('Dropped null API ID for', name, result);
-        }
-      });
-    });
-
-    // If `requestName` was provided, only wait for this API ID
-    if (requestName) {
-      return this.apiIdsP[requestName];
-    }
-
-    // Otherwise wait for all of them
-    return Promise.props(this.apiIdsP);
-  }
-
-
   onMessage(message, request) {
     const {api, data, resolve, reject, start_time} = request;
     debugWs('-- Golos.onMessage -->', message.id);
@@ -187,14 +137,6 @@ class Golos extends EventEmitter {
       return;
     }
 
-    if (api === 'login_api' && data.method === 'login') {
-      debugApiIds(
-        'network_broadcast_api API ID depends on the WS\' session. ' +
-        'Triggering a refresh...'
-      );
-      this.getApiIds('network_broadcast_api', true);
-    }
-
     debugProtocol('Resolved', api, data, '->', message);
     this.emit('track-performance', data.method, Date.now() - start_time);
     delete this.requests[message.id];
@@ -206,30 +148,19 @@ class Golos extends EventEmitter {
     const id = data.id || this.id++;
     const startP = this.start();
 
-    const apiIdsP = api === 'login_api' && data.method === 'get_api_by_name'
-      ? Promise.fulfilled()
-      : this.getApiIds(api);
-
-    if (api === 'login_api' && data.method === 'get_api_by_name') {
-      debugApiIds('Sending setup message');
-    } else {
-      debugApiIds('Going to wait for setup messages to resolve');
-    }
-
-    this.currentP = Promise.join(startP, apiIdsP)
-      .then(() => new Promise((resolve, reject) => {
+    this.currentP = startP
+    .then(() => new Promise((resolve, reject) => {
         if (!this.ws) {
-          reject(new Error(
-            'The WS connection was closed while this request was pending'
-          ));
+          reject(new Error('The WS connection was closed while this request was pending'));
           return;
         }
 
         const payload = JSON.stringify({
           id,
           method: 'call',
+          jsonrpc: '2.0',
           params: [
-            this.apiIds[api],
+            api,
             data.method,
             data.params,
           ],
@@ -244,7 +175,6 @@ class Golos extends EventEmitter {
           start_time: Date.now()
         };
 
-        // this.inFlight += 1;
         this.ws.send(payload);
       }))
       .nodeify(callback);
