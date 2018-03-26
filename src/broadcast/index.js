@@ -8,6 +8,7 @@ import operations from './operations';
 import steemApi from '../api';
 import steemAuth from '../auth';
 import { camelCase } from '../utils';
+import config from '../config'
 
 const debug = newDebug('golos:broadcast');
 const formatter = formatterFactory(steemApi);
@@ -37,10 +38,9 @@ steemBroadcast.send = function steemBroadcast$send(tx, privKeys, callback) {
         'Broadcasting transaction (transaction, transaction.operations)',
         transaction, transaction.operations
       );
-      return steemApi.broadcastTransactionWithCallbackAsync(
-        () => {},
-        signedTransaction
-      ).then(() => signedTransaction);
+      return config.get('broadcast_transaction_with_callback') 
+        ? steemApi.broadcastTransactionWithCallbackAsync(() => {}, signedTransaction).then(() => signedTransaction)
+        : steemApi.broadcastTransactionAsync(signedTransaction).then(() => signedTransaction)
     });
 
   resultP.nodeify(callback || noop);
