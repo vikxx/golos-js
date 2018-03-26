@@ -71,6 +71,19 @@ const Serializer = function(operation_name, serilization_types_object) {
     return module.exports[operation_name] = s;
 }
 
+const beneficiaries = new Serializer(
+    "beneficiaries", {
+        account: string,
+        weight: uint16
+    }
+);
+
+const comment_payout_beneficiaries = new Serializer(
+    0, {
+        beneficiaries: set(beneficiaries)
+    }
+);
+
 const transaction = new Serializer( 
     "transaction", {
         ref_block_num: uint16,
@@ -369,7 +382,9 @@ let comment_options = new Serializer(
         percent_steem_dollars: uint16,
         allow_votes: bool,
         allow_curation_rewards: bool,
-        extensions: set(future_extensions)
+        extensions: set(static_variant([
+            comment_payout_beneficiaries
+        ]))
     }
 );
 
