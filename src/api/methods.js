@@ -409,6 +409,11 @@ module.exports = [
   },
   {
     "api": "market_history",
+    "method": "get_order_book_extended",
+    "params": ["limit"]
+  },
+  {
+    "api": "market_history",
     "method": "get_trade_history",
     "params": ["start", "end", "limit"]
   },
