@@ -83,6 +83,12 @@ golos.api.cancelAllSubscriptions(function(err, result) {
 });
 ```
 
+### Stream Transactions
+```
+steem.api.streamTransactions('head', function(err, result) {
+    console.log(err, result);
+});
+```
 ## Tags
 
 ### Get Trending Tags
