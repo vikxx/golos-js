@@ -82,6 +82,13 @@ golos.api.cancelAllSubscriptions(function(err, result) {
   console.log(err, result);
 });
 ```
+### Stream last Block Numbers head or irreversible
+```
+let type = 'head' // 'irreversible'
+golos.api.streamBlockNumber(type, function(err, result) {
+  console.log(err, result)
+});
+```
 
 ## Tags
 
